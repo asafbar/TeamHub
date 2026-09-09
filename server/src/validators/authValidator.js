@@ -14,8 +14,20 @@ const registerValidator = [
     body("password")
         .isLength({ min: 6 })
         .withMessage("Password must by at least 6 characters long.")
+    ]
+    
+    const loginValidator = [
+        body("email")
+        .trim()
+        .isEmail()
+        .withMessage("A valide email is required."),
+        
+        body("password")
+            .notEmpty()
+            .withMessage("Password is required.")
 ]
 
 module.exports = {
-    registerValidator
+    registerValidator,
+    loginValidator
 }
