@@ -17,7 +17,7 @@ function requireAuth(req, res, next) {
         const decoded = jwt.verify(token, env.jwtSecret)
 
         req.user = {
-            id: decoded.userId
+            id: decoded.sub
         }
 
         next()

@@ -19,5 +19,10 @@ router.post(
     authController.login
 )
 
+router.get(
+    "/me",
+    requireAuth,
+    authController.me
+)
 
 module.exports = router

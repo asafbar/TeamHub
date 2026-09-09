@@ -38,9 +38,9 @@ async function loginUser(email, password) {
     }
 
     const token = jwt.sign(
-        { userId: user._id },
+        { sub: user._id },
         env.jwtSecret,
-        { expiresIn: "1h" }
+        { expiresIn: env.jwtExpiresIn }
     )
 
     return {
@@ -49,7 +49,18 @@ async function loginUser(email, password) {
     }
 }
 
+async function getCurrentUser(userId) {
+    const user = await userRepository.findUserById(userId)
+
+    if(!user) {
+        throw new Error("User not found.")
+    }
+
+    return user
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getCurrentUser
 }

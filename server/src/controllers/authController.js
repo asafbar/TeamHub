@@ -1,7 +1,6 @@
 const authService = require('../services/authService')
 const { toUserResponse } = require('../utils/userMapper')
 
-
 const { successResponse, errorResponse } = require('../utils/apiResponse')
 
 async function register(req, res) {
@@ -40,8 +39,25 @@ async function login(req, res) {
     }
 }
 
+async function me(req, res) {
+    try {
+        const user = await authService.getCurrentUser(req.user.id)
+
+        return res.status(200).json(
+            successResponse(
+                "Current user loaded successfully.",
+                toUserResponse(user)
+            )
+        )
+    } catch (error) {
+        return res.status(404).json(
+            errorResponse(error.message)
+        )
+    }
+}
 
 module.exports = {
     register,
-    login
+    login,
+    me
 }
