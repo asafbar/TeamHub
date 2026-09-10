@@ -4,7 +4,7 @@ const userRepository = require('../repositories/userRepository')
 const env = require('../config/env')
 
 async function registerUser(userData) {
-    const existUser = await userRepository.findUserByEmail(userData.email)
+    const existUser = await userRepository.getUserByEmail(userData.email)
 
     if (existUser) {
         throw new Error("User already exists.")
@@ -22,7 +22,7 @@ async function registerUser(userData) {
 }
 
 async function loginUser(email, password) {
-    const user = await userRepository.findUserByEmail(email)
+    const user = await userRepository.getUserByEmail(email)
 
     if (!user) {
         throw new Error("Invalid email or passwword.")
@@ -50,7 +50,7 @@ async function loginUser(email, password) {
 }
 
 async function getCurrentUser(userId) {
-    const user = await userRepository.findUserById(userId)
+    const user = await userRepository.getUserById(userId)
 
     if(!user) {
         throw new Error("User not found.")

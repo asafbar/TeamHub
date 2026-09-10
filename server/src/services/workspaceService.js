@@ -1,0 +1,81 @@
+const workspaceRepository = require('../repositories/workspaceRepository')
+const membershipRepository = require('../repositories/membershipRepository')
+const userRepository = require('../repositories/userRepository')
+
+async function createWorkspace(userId, workspaceData) {
+    const workspace = await workspaceRepository.createWorkspace(
+        workspaceData
+    )
+
+    // TODO: Use a MongoDB transaction so workspace and owner membership
+    //are created atomically 
+    await membershipRepository.createMembership({
+        userId,
+        workspaceId: workspace._id,
+        role: "owner"
+    })
+
+    return workspace
+}
+
+async function getUserWorkspaces(userId) {
+    const memberships = await membershipRepository.getMembershipsByUser(userId)
+
+    const workspaceIds = memberships.map((membership) => membership.workspaceId)
+
+    return await workspaceRepository.getMultipleWorkspacesByIds(workspaceIds)
+}
+
+async function getWorkspaceById(userId, workspaceId) {
+    const membership = await membershipRepository.getMembershipByUserAndWorkspace(
+        userId,
+        workspaceId
+    )
+
+    if(!membership) {
+        throw new Error("Workspace not found.")
+    }
+
+    const workspace = await workspaceRepository.getWorkspaceById(workspaceId)
+
+    if (!workspace) {
+        throw new Error("Workspace not found.")
+    }
+
+    return workspace
+}
+
+async function addMemberToWorkspace(
+    requestingUserId,
+    workspaceId,
+    email,
+    role
+) {
+    const user = await userRepository.getUserByEmail(email)
+
+    if (!user) {
+        throw new Error("User not found.")
+    }
+
+    const existingMembership = await membershipRepository.getMembershipByUserAndWorkspace(
+        user._id,
+        workspaceId
+    )
+
+    if(existingMembership) {
+        throw new Error("User is already a member of this workspace.")
+    }
+
+    return await membershipRepository.createMembership({
+        userId: user._id,
+        workspaceId,
+        role
+    })
+}
+
+module.exports = {
+    createWorkspace,
+    getUserWorkspaces,
+    getWorkspaceById,
+    addMemberToWorkspace
+}
