@@ -17,8 +17,27 @@ async function getMembershipsByUser(userId) {
     })
 }
 
+async function getMembershipById(id) {
+    return await Membership.findById(id)
+}
+
+async function getWorkspaceMembers(workspaceId) {
+    return await Membership.find({
+        workspaceId
+    })
+    .populate(
+        "userId",
+        "username email avatar"
+    )
+    .sort({
+        joinedAt: 1
+    })
+}
+
 module.exports = {
     createMembership,
     getMembershipByUserAndWorkspace,
-    getMembershipsByUser
+    getMembershipsByUser,
+    getMembershipById,
+    getWorkspaceMembers
 }

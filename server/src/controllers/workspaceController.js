@@ -1,6 +1,7 @@
 const workspaceService = require('../services/workspaceService')
 const { successResponse, errorResponse } = require('../utils/apiResponse')
 const { toMembershipResponse } = require('../utils/membershipMapper')
+const { toWorkspaceMemberListResponse } = require('../utils/membershipMapper')
 
 const {
     toWorkspaceResponse,
@@ -85,9 +86,30 @@ async function addMember(req, res) {
     }
 }
 
+async function getWorkspaceMembers(req, res) {
+    try {
+        const members = await workspaceService.getWorkspaceMembers(
+            req.user.id,
+            req.params.workspaceId
+        )
+
+        return res.status(200).json(
+            successResponse(
+                "Workspace members loaded successfully.",
+                toWorkspaceMemberListResponse(members)
+            )
+        )
+    } catch (error) {
+        return res.status(400).json(
+            errorResponse(error.message)
+        )
+    }
+}
+
 module.exports = {
     createWorkspace,
     getUserWorkspaces,
     getWorkspaceById,
-    addMember
+    addMember,
+    getWorkspaceMembers
 }
