@@ -1,0 +1,12 @@
+.column {
+    flex: 0 0 280px;
+    min-height: 300px;
+    padding: 16px;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 16px;
+}

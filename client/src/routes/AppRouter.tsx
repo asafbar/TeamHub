@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "../features/auth/pages/LoginPage";
 import PublicLayout from "../layouts/PublicLayout";
-import AppLayout from "../layouts/AppLayouts";
+import AppLayout from "../layouts/AppLayout";
 import TaskBoardPage from "../features/tasks/pages/TaskBoardPage";
-import WorkspaceListPage from "../features/workspaces/pages/workspaceListPage";
+import WorkspaceListPage from "../features/workspaces/pages/WorkspaceListPage";
 import ProtectedRoute from "./ProtectedRoute";
+import WorkspacePage from "../features/workspaces/pages/WorkspacePage";
 
 function AppRouter() {
     return (
@@ -23,6 +24,16 @@ function AppRouter() {
                         </AppLayout>
                     </ProtectedRoute>
                 } />
+
+                <Route path="/workspaces/:workspaceId"
+                element={
+                    <ProtectedRoute>
+                        <AppLayout>
+                            <WorkspacePage/>
+                        </AppLayout>
+                    </ProtectedRoute>
+                }
+                />
 
                 <Route path="/tasks" element={
                     <ProtectedRoute>

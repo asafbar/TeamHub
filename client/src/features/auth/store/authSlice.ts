@@ -58,7 +58,13 @@ export const loadCurrentUserAsync = createAsyncThunk<
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.user = null
+            state.token = null
+            state.error = null
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(loginAsync.pending, (state) => {
@@ -85,9 +91,13 @@ const authSlice = createSlice({
             })
             .addCase(loadCurrentUserAsync.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.payload ?? "Could bot load current user"
+                state.error = action.payload ?? "Could not load current user"
             })
     },
 })
+
+export const {
+    logout
+} = authSlice.actions
 
 export default authSlice.reducer
