@@ -6,34 +6,37 @@ type TaskBoardProps = {
     tasks: Task[]
     statuses: TaskStatus[]
     priorities: TaskPriority[]
+    onTaskClick: (task: Task) => void
 }
 function TaskBoard({
     tasks,
     statuses,
-    priorities
+    priorities,
+    onTaskClick
 }: TaskBoardProps) {
-  return (
-    <div className={styles.board}>
-        {statuses
-                    .slice()
-                    .sort((a, b) => a.position - b.position)
-                    .map((status) => {
-                        const statusTasks = tasks
-                            .filter((task) => task.statusId === status.id)
-                            .sort((a, b) => a.position - b.position)
+    return (
+        <div className={styles.board}>
+            {statuses
+                .slice()
+                .sort((a, b) => a.position - b.position)
+                .map((status) => {
+                    const statusTasks = tasks
+                        .filter((task) => task.statusId === status.id)
+                        .sort((a, b) => a.position - b.position)
 
-                        return (
-                            <TaskColumn
-                                key={status.id}
-                                status={status}
-                                tasks={statusTasks}
-                                priorities={priorities}
-                            />
-                        )
-                    })
-                }
-    </div>
-  )
+                    return (
+                        <TaskColumn
+                            key={status.id}
+                            status={status}
+                            tasks={statusTasks}
+                            priorities={priorities}
+                            onTaskClick={onTaskClick}
+                        />
+                    )
+                })
+            }
+        </div>
+    )
 }
 
 export default TaskBoard

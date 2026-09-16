@@ -5,7 +5,9 @@ import type {
     TaskStatus,
     TaskPriority,
     TaskPrioritiesResponse,
-    TaskStatusesResponse
+    TaskStatusesResponse,
+    CreateTaskRequest,
+    UpdateTaskRequest
 } from "../types/TaskTypes";
 
 async function getWorkspaceTasks(
@@ -38,8 +40,45 @@ async function getTaskPriorities(
     return response.data.data
 }
 
+async function createTask(
+    workspaceId: string,
+    taskData: CreateTaskRequest
+): Promise<Task> {
+    const response = await apiClient.post(
+        `/workspaces/${workspaceId}/tasks`,
+        taskData
+    )
+
+    return response.data.data
+}
+
+async function updateTask(
+    workspaceId: string,
+    taskId: string,
+    taskData: UpdateTaskRequest
+): Promise<Task> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/${taskId}`,
+        taskData
+    )
+
+    return response.data.data
+}
+
+async function deleteTask(
+    workspaceId: string,
+
+    taskId: string): Promise<void> {
+        await apiClient.delete(
+            `/workspaces/${workspaceId}/tasks/${taskId}`
+        )
+}
+
 export {
     getWorkspaceTasks,
     getTaskStatuses,
-    getTaskPriorities
+    getTaskPriorities,
+    createTask,
+    updateTask,
+    deleteTask
 }

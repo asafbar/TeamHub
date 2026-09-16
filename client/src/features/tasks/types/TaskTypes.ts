@@ -38,6 +38,26 @@ export type Task = {
     position: number
 }
 
+export type CreateTaskRequest = {
+    title: string
+    description: string
+    statusId: string
+    priorityId: string
+    assigneeMembershipId: string | null
+    dueDate: string | null
+    position: number
+}
+
+export type UpdateTaskRequest = {
+    title?: string
+    description?: string
+    statusId?: string
+    priorityId?: string
+    assigneeMembershipId?: string | null
+    dueDate?: string | null
+    position?: number
+}
+
 export type TaskResponse = {
     success: boolean
     message: string

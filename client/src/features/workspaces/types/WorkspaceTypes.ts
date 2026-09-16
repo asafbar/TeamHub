@@ -15,3 +15,23 @@ export type WorkspaceResponse = {
     message: string
     data: Workspace
 }
+
+export type WorkspaceMemberUser = {
+    id: string
+    username: string
+    email: string
+    avatar: string | null
+}
+
+export type WorkspaceMember = {
+    id: string
+    user: WorkspaceMemberUser
+    role: string
+    joinedAt: string
+}
+
+export type WorkspaceMembersResponse = {
+    success: boolean
+    message: string
+    data: WorkspaceMember[]
+}

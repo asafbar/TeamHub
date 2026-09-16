@@ -11,12 +11,14 @@ type TaskColumnProps = {
     status: TaskStatus
     tasks: Task[]
     priorities: TaskPriority[]
+    onTaskClick: (task: Task) => void
 }
 
 function TaskColumn({
     status,
     tasks,
-    priorities
+    priorities,
+    onTaskClick
 }: TaskColumnProps) {
     return (
         <div className={styles.column}>
@@ -33,6 +35,7 @@ function TaskColumn({
                         key={task.id}
                         task={task}
                         priority={priority}
+                        onClick={onTaskClick}
                     />
                 )
             })}

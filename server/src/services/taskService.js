@@ -106,7 +106,7 @@ async function updateTask(userId, workspaceId, taskId, taskData) {
         const priority = await taskPriorityRepository.getTaskPriorityById(taskData.priorityId)
 
         if (!priority || priority.workspaceId.toString() !== workspaceId) {
-            throw new Error("Invalid priority status.")
+            throw new Error("Invalid task priority.")
         }
     }
 
