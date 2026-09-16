@@ -1,4 +1,5 @@
 import styles from "./TaskColumn.module.css"
+import { useDroppable } from "@dnd-kit/react"
 
 import type {
     Task,
@@ -20,11 +21,17 @@ function TaskColumn({
     priorities,
     onTaskClick
 }: TaskColumnProps) {
+
+    const {ref} = useDroppable({id: status.id})
+
     return (
-        <div className={styles.column}>
+        <div
+        ref={ref} 
+        className={styles.column}
+        >
             <h2 className={styles.title}>{status.name}</h2>
 
-            {tasks.map((task) => {
+            {tasks.map((task, index) => {
 
                 const priority= priorities.find(
                     (priority) => priority.id === task.priorityId
@@ -35,6 +42,7 @@ function TaskColumn({
                         key={task.id}
                         task={task}
                         priority={priority}
+                        index={index}
                         onClick={onTaskClick}
                     />
                 )

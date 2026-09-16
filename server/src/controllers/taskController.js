@@ -144,6 +144,32 @@ async function getWorkspacePriorities(req, res) {
     }
 }
 
+async function reorderTasks(req, res, next) {
+    try {
+        const userId = req.user.id
+        const { workspaceId } = req.params
+        const { statusId, taskIds } = req.body
+
+        const tasks = await taskService.reorderTasks(
+            userId,
+            workspaceId,
+            statusId,
+            taskIds
+        )
+
+        res.status(200).json(
+            successResponse(
+                "Tasks reordered successfully.",
+                toTaskListResponse(tasks)
+            )
+        )
+    } catch (error) {
+        return res.status(400).json(
+            errorResponse(error.message)
+        )
+    }
+}
+
 module.exports = {
     createTask,
     getWorkspaceTasks,
@@ -151,5 +177,6 @@ module.exports = {
     updateTask,
     deleteTask,
     getWorkspaceStatuses,
-    getWorkspacePriorities
+    getWorkspacePriorities,
+    reorderTasks
 }

@@ -29,10 +29,22 @@ async function getWorkspaceTasks(workspaceId) {
     })
 }
 
+async function reorderTasks(taskIds) {
+    const operations = taskIds.map((taskId, index) => ({
+        updateOne: {
+            filter: {_id: taskId},
+            update: {position: index}
+        }
+    }))
+
+    return await Task.bulkWrite(operations)
+}
+
 module.exports = {
     createTask,
     getTaskById,
     updateTaskById,
     deleteTaskById,
-    getWorkspaceTasks
+    getWorkspaceTasks,
+    reorderTasks
 }

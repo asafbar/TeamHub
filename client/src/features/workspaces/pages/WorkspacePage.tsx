@@ -49,6 +49,10 @@ function WorkspacePage() {
         return <p>{error}</p>
     }
 
+    if(!workspaceId) {
+        return <p>Invalid workspace</p>
+    }
+
     if (!selectedWorkspace) {
         return <p>Workspace not found.</p>
     }
@@ -83,6 +87,7 @@ function WorkspacePage() {
             )}
 
             <TaskBoard
+                workspaceId={workspaceId}
                 tasks={tasks}
                 statuses={statuses}
                 priorities={priorities}

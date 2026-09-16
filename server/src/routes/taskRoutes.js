@@ -33,6 +33,12 @@ router.get(
     taskController.getWorkspacePriorities
 )
 
+router.patch(
+    "/reorder",
+    requireAuth,
+    taskController.reorderTasks
+)
+
 router.get(
     "/:taskId",
     requireAuth,

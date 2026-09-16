@@ -194,6 +194,45 @@ async function getWorkspacePriorities(userId, workspaceId) {
     return await taskPriorityRepository.getWorkspacePriorities(workspaceId)
 }
 
+async function reorderTasks(userId, workspaceId, statusId, taskIds) {
+    const membership = await membershipRepository.getMembershipByUserAndWorkspace(
+        userId,
+        workspaceId
+    )
+
+    if (!membership) {
+        throw new Error("Workspace not found.")
+    }
+
+    const status = await taskStatusRepository.getTaskStatusById(statusId)
+
+    if (!status || status.workspaceId.toString() !== workspaceId) {
+        throw new Error("Invalid task status.")
+    }
+
+    const workspaceTasks = await taskRepository.getWorkspaceTasks(workspaceId)
+ 
+    const statusTasks = workspaceTasks.filter(
+        (task) => task.statusId.toString() === statusId
+    )
+
+    const statusTaskIds = statusTasks.map(
+        (task)=> task._id.toString()
+    )
+
+    const hasInvalidTask = taskIds.some(
+        (taskId) => !statusTaskIds.includes(taskId)
+    )
+
+    if(hasInvalidTask || taskIds.length !== statusTaskIds.length) {
+        throw new Error("Invalid task order.")
+    }
+
+    await taskRepository.reorderTasks(taskIds)
+
+    return await taskRepository.getWorkspaceTasks(workspaceId)
+}
+
 module.exports = {
     createTask,
     getWorkspaceTasks,
@@ -201,5 +240,6 @@ module.exports = {
     updateTask,
     deleteTask,
     getWorkspaceStatuses,
-    getWorkspacePriorities
+    getWorkspacePriorities,
+    reorderTasks
 }
