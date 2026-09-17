@@ -7,7 +7,8 @@ import type {
     TaskPrioritiesResponse,
     TaskStatusesResponse,
     CreateTaskRequest,
-    UpdateTaskRequest
+    UpdateTaskRequest,
+    ReorderTaskRequest
 } from "../types/TaskTypes";
 
 async function getWorkspaceTasks(
@@ -69,9 +70,21 @@ async function deleteTask(
     workspaceId: string,
 
     taskId: string): Promise<void> {
-        await apiClient.delete(
-            `/workspaces/${workspaceId}/tasks/${taskId}`
-        )
+    await apiClient.delete(
+        `/workspaces/${workspaceId}/tasks/${taskId}`
+    )
+}
+
+async function reorderTasks(
+    workspaceId: string,
+    reorderData: ReorderTaskRequest
+): Promise<Task[]> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/reorder`,
+        reorderData
+    )
+
+    return response.data.data
 }
 
 export {
@@ -80,5 +93,6 @@ export {
     getTaskPriorities,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    reorderTasks
 }
