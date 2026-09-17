@@ -194,7 +194,8 @@ async function getWorkspacePriorities(userId, workspaceId) {
     return await taskPriorityRepository.getWorkspacePriorities(workspaceId)
 }
 
-async function reorderTasks(userId, workspaceId, statusId, taskIds) {
+async function reorderTasks(userId, workspaceId, taskUpdates) {
+    // User must belong to the workspace.
     const membership = await membershipRepository.getMembershipByUserAndWorkspace(
         userId,
         workspaceId
@@ -204,31 +205,32 @@ async function reorderTasks(userId, workspaceId, statusId, taskIds) {
         throw new Error("Workspace not found.")
     }
 
-    const status = await taskStatusRepository.getTaskStatusById(statusId)
-
-    if (!status || status.workspaceId.toString() !== workspaceId) {
-        throw new Error("Invalid task status.")
-    }
-
     const workspaceTasks = await taskRepository.getWorkspaceTasks(workspaceId)
- 
-    const statusTasks = workspaceTasks.filter(
-        (task) => task.statusId.toString() === statusId
+    const workspaceStatuses = await taskStatusRepository.getWorkspaceStatuses(workspaceId)
+
+    const workspaceTaskIds = workspaceTasks.map((task) => task._id.toString())
+
+    const workspaceStatusIds = workspaceStatuses.map((status) => status._id.toString())
+
+    // Every task must belong to this workspace.
+    const hasInvalidTask = taskUpdates.some(
+        (taskUpdate) => !workspaceTaskIds.includes(taskUpdate.taskId)
     )
 
-    const statusTaskIds = statusTasks.map(
-        (task)=> task._id.toString()
-    )
-
-    const hasInvalidTask = taskIds.some(
-        (taskId) => !statusTaskIds.includes(taskId)
-    )
-
-    if(hasInvalidTask || taskIds.length !== statusTaskIds.length) {
+    if (hasInvalidTask) {
         throw new Error("Invalid task order.")
     }
 
-    await taskRepository.reorderTasks(taskIds)
+    // Every destination status must belong to this workspace.
+    const hasInvalidStatus = taskUpdates.some(
+        (taskUpdate) => !workspaceStatusIds.includes(taskUpdate.statusId)
+    )
+
+    if (hasInvalidStatus) {
+        throw new Error("Invalid task status.")
+    }
+
+    await taskRepository.reorderTasks(taskUpdates)
 
     return await taskRepository.getWorkspaceTasks(workspaceId)
 }

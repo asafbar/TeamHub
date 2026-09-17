@@ -1,5 +1,6 @@
 import styles from "./TaskColumn.module.css"
 import { useDroppable } from "@dnd-kit/react"
+import {CollisionPriority} from "@dnd-kit/abstract"
 
 import type {
     Task,
@@ -22,7 +23,10 @@ function TaskColumn({
     onTaskClick
 }: TaskColumnProps) {
 
-    const {ref} = useDroppable({id: status.id})
+    const {ref} = useDroppable({
+        id: status.id,
+        collisionPriority: CollisionPriority.Low
+    })
 
     return (
         <div

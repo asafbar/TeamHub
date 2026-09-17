@@ -29,11 +29,16 @@ async function getWorkspaceTasks(workspaceId) {
     })
 }
 
-async function reorderTasks(taskIds) {
-    const operations = taskIds.map((taskId, index) => ({
+async function reorderTasks(taskUpdates) {
+    const operations = taskUpdates.map((taskUpdate) => ({
         updateOne: {
-            filter: {_id: taskId},
-            update: {position: index}
+            filter: {
+                _id: taskUpdate.taskId
+            },
+            update: {
+                statusId: taskUpdate.statusId,
+                position: taskUpdate.position
+            }
         }
     }))
 

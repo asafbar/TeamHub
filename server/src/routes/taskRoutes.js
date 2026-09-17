@@ -3,7 +3,11 @@ const express = require('express')
 const taskController = require('../controllers/taskController')
 const requireAuth = require('../middleware/authMiddleware')
 const validateRequest = require('../middleware/validateMiddleware')
-const {createTaskValidator, updateTaskValidator} = require('../validators/taskValidator')
+const {
+    createTaskValidator,
+     updateTaskValidator,
+    reorderTasksValidator
+    } = require('../validators/taskValidator')
 
 const router = express.Router({mergeParams: true})
 
@@ -36,6 +40,8 @@ router.get(
 router.patch(
     "/reorder",
     requireAuth,
+    reorderTasksValidator,
+    validateRequest,
     taskController.reorderTasks
 )
 

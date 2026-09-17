@@ -4,7 +4,8 @@ import type {
     TaskStatus,
     TaskPriority,
     CreateTaskRequest,
-    UpdateTaskRequest
+    UpdateTaskRequest,
+    ReorderTaskRequest
 } from "../types/TaskTypes"
 import {
     getTaskPriorities,
@@ -12,7 +13,8 @@ import {
     getWorkspaceTasks,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    reorderTasks
 } from "../api/TaskApi"
 
 type TaskState = {
@@ -52,6 +54,11 @@ type UpdateTaskArgs = {
 type DeleteTaskArgs = {
     workspaceId: string
     taskId: string
+}
+
+type ReorderTasksArgs = {
+    workspaceId: string
+    reorderData: ReorderTaskRequest
 }
 
 export const loadTaskBoardAsync = createAsyncThunk<
@@ -133,6 +140,24 @@ export const deleteTaskAsync = createAsyncThunk<
     }
 )
 
+export const reorderTasksAsync = createAsyncThunk<
+    Task[],
+    ReorderTasksArgs,
+    { rejectValue: string }
+>(
+    "tasks/reorderTasks",
+    async ({ workspaceId, reorderData }, thunkApi) => {
+        try {
+            return await reorderTasks(
+                workspaceId,
+                reorderData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not reorder tasks.")
+        }
+    }
+)
+
 const taskSlice = createSlice({
     name: "tasks",
     initialState,
@@ -208,6 +233,21 @@ const taskSlice = createSlice({
             .addCase(deleteTaskAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not delete task."
+            })
+
+            //reorder tasks
+            .addCase(reorderTasksAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(reorderTasksAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.tasks = action.payload
+                state.error = null
+            })
+            .addCase(reorderTasksAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not reorder tasks."
             })
     },
 })

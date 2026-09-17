@@ -144,20 +144,19 @@ async function getWorkspacePriorities(req, res) {
     }
 }
 
-async function reorderTasks(req, res, next) {
+async function reorderTasks(req, res) {
     try {
         const userId = req.user.id
         const { workspaceId } = req.params
-        const { statusId, taskIds } = req.body
+        const { taskUpdates } = req.body
 
         const tasks = await taskService.reorderTasks(
             userId,
             workspaceId,
-            statusId,
-            taskIds
+            taskUpdates
         )
 
-        res.status(200).json(
+        return res.status(200).json(
             successResponse(
                 "Tasks reordered successfully.",
                 toTaskListResponse(tasks)

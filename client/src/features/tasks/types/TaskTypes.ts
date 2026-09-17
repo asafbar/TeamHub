@@ -58,6 +58,16 @@ export type UpdateTaskRequest = {
     position?: number
 }
 
+export type TaskPositionUpdate = {
+    taskId: string
+    statusId: string
+    position: number
+}
+
+export type ReorderTaskRequest = {
+    taskUpdates: TaskPositionUpdate[]
+}
+
 export type TaskResponse = {
     success: boolean
     message: string
