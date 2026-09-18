@@ -3,13 +3,25 @@ const express = require('express')
 const taskController = require('../controllers/taskController')
 const requireAuth = require('../middleware/authMiddleware')
 const validateRequest = require('../middleware/validateMiddleware')
+const taskStatusController = require('../controllers/taskStatusController')
+const taskPriorityController = require('../controllers/taskPriorityController')
 const {
     createTaskValidator,
-     updateTaskValidator,
-    reorderTasksValidator
-    } = require('../validators/taskValidator')
+    updateTaskValidator,
+    reorderTasksValidator,
+} = require('../validators/taskValidator')
+const {
+    createTaskStatusValidator,
+    updateTaskStatusValidator,
+    reorderTaskStatusesValidator
+} = require('../validators/taskStatusValidator')
+const {
+    createTaskPriorityValidator,
+    updateTaskPriorityValidator,
+    reorderTaskPrioritiesValidator
+} = require('../validators/taskPriorityValidator')
 
-const router = express.Router({mergeParams: true})
+const router = express.Router({ mergeParams: true })
 
 router.post(
     "/",
@@ -31,10 +43,70 @@ router.get(
     taskController.getWorkspaceStatuses
 )
 
+router.post(
+    "/statuses",
+    requireAuth,
+    createTaskStatusValidator,
+    validateRequest,
+    taskStatusController.createTaskStatus
+)
+
+router.patch(
+    "/statuses/reorder",
+    requireAuth,
+    reorderTaskStatusesValidator,
+    validateRequest,
+    taskStatusController.reorderTaskStatuses
+)
+
+router.patch(
+    "/statuses/:statusId",
+    requireAuth,
+    updateTaskStatusValidator,
+    validateRequest,
+    taskStatusController.updateTaskStatus
+)
+
+router.delete(
+    "/statuses/:statusId",
+    requireAuth,
+    taskStatusController.deleteTaskStatus
+)
+
 router.get(
     "/priorities",
     requireAuth,
     taskController.getWorkspacePriorities
+)
+
+router.post(
+    "/priorities",
+    requireAuth,
+    createTaskPriorityValidator,
+    validateRequest,
+    taskPriorityController.createTaskPriority
+)
+
+router.patch(
+    "/priorities/reorder",
+    requireAuth,
+    reorderTaskPrioritiesValidator,
+    validateRequest,
+    taskPriorityController.reorderTaskPriorities
+)
+
+router.patch(
+    "/priorities/:priorityId",
+    requireAuth,
+    updateTaskPriorityValidator,
+    validateRequest,
+    taskPriorityController.updateTaskPriority
+)
+
+router.delete(
+    "/priorities/:priorityId",
+    requireAuth,
+    taskPriorityController.deleteTaskPriority
 )
 
 router.patch(

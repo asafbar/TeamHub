@@ -19,7 +19,7 @@ const taskStatusScheme = new mongoose.Schema(
 
 taskStatusScheme.index(
     {
-        WorkspaceId: 1,
+        workspaceId: 1,
         name: 1
     },
     {

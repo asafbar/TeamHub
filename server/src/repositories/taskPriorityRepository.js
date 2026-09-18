@@ -21,8 +21,46 @@ async function getWorkspacePriorities(workspaceId) {
     })
 }
 
+async function createTaskPriority(taskPriorityData) {
+    return await TaskPriority.create(taskPriorityData)
+}
+
+async function updateTaskPriorityById(id, updateData) {
+    return await TaskPriority.findByIdAndUpdate(
+        id,
+        updateData,
+        {
+            returnDocument: "after",
+            runValidators: true
+        }
+    )
+}
+
+async function deleteTaskPriorityById(id) {
+    return await TaskPriority.findByIdAndDelete(id)
+}
+
+async function reorderTaskPriorities(priorityUpdates) {
+    const operations = priorityUpdates.map((priority) => ({
+        updateOne: {
+            filter: { _id: priority.priorityId },
+            update: {
+                $set: {
+                    position: priority.position
+                }
+            }
+        }
+    }))
+
+    return await TaskPriority.bulkWrite(operations)
+}
+
 module.exports = {
     getTaskPriorityById,
     createDefaultTaskPriorities,
-    getWorkspacePriorities
+    getWorkspacePriorities,
+    createTaskPriority,
+    updateTaskPriorityById,
+    deleteTaskPriorityById,
+    reorderTaskPriorities
 }
