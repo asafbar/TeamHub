@@ -70,10 +70,28 @@
 }
 
 .priority {
-    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 
-    font-size: 13px;
-    font-weight: 500;
+    width: fit-content;
+    padding: 4px 9px;
 
-    color: #94a3b8;
+    border: 1px solid;
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+
+    background-color: #162238;
+}
+
+.priorityDot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
 }

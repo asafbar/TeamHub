@@ -49,11 +49,23 @@ function TaskCard({
             </p>
 
             {priority && (
-                <p className={styles.priority}>
-                    Priority: {priority.name}
-                </p>
+                <span
+                    className={styles.priority}
+                    style={{
+                        borderColor: priority.color ?? "#64748b",
+                        color: priority.color ?? "#94a3b8"
+                    }}
+                >
+                    <span
+                        className={styles.priorityDot}
+                        style={{
+                            backgroundColor: priority.color ?? "#64748b"
+                        }}
+                    />
+                    {priority.name}
+                </span>
             )}
-        </div>
+        </div >
     )
 }
 

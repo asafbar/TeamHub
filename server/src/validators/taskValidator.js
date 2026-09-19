@@ -34,11 +34,7 @@ const createTaskValidator = [
     body("dueDate")
     .optional({nullable: true})
     .isISO8601()
-    .withMessage("Invalid due date."),
-
-    body("position")
-    .isNumeric()
-    .withMessage("Task position must be a number")
+    .withMessage("Invalid due date.")
 ]
 
 const updateTaskValidator = [

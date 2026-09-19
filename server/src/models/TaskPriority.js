@@ -9,7 +9,8 @@ const taskPriorityScheme = new mongoose.Schema(
         },
 
         name: { type: String, required: true, trim: true },
-        position: {type: Number, required: true}
+        position: { type: Number, required: true },
+        color: { type: String, default: null }
     },
     {
         timestamps: true

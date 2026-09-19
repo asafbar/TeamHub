@@ -11,6 +11,7 @@ export type TaskPriority = {
     workspaceId: string
     name: string
     position: number
+    color: string | null
 }
 
 export type TaskStatusesResponse = {
@@ -45,7 +46,6 @@ export type CreateTaskRequest = {
     priorityId: string
     assigneeMembershipId: string | null
     dueDate: string | null
-    position: number
 }
 
 export type UpdateTaskRequest = {

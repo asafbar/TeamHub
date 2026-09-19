@@ -19,15 +19,18 @@ const DEFAULT_TASK_STATUSES = [
 const DEFAULT_TASK_PRIORITIES = [
     {
         name: "Low",
-        position: 1
+        position: 1,
+        color: "#22c55e"
     },
     {
         name: "Medium",
-        position: 2
+        position: 2,
+        color: "#f59e0b"
     },
     {
         name: "High",
-        position: 3
+        position: 3,
+        color: "#ef4444"
     },
 ]
 

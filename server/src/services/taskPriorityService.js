@@ -23,6 +23,7 @@ async function createTaskPriority(
     return await taskPriorityRepository.createTaskPriority({
         workspaceId,
         name: priorityData.name,
+        color: priorityData.color,
         position: priorities.length
     })
 }
@@ -48,8 +49,9 @@ async function updateTaskPriority(
         throw new Error("Task priority not found.")
     }
 
-    updateData = {
-        name: priorityData.name
+    const updateData = {
+        name: priorityData.name,
+        color: priorityData.color
     }
 
     Object.keys(updateData).forEach((key) => {

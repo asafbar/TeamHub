@@ -1,0 +1,212 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid #26364f;
+}
+
+.title {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #f8fafc;
+}
+
+.subtitle {
+    margin: 6px 0 0;
+
+    font-size: 14px;
+
+    color: #94a3b8;
+}
+
+.closeButton {
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 25px;
+    line-height: 1;
+
+    color: #94a3b8;
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.closeButton:hover {
+    color: #f8fafc;
+    background-color: #1e2b42;
+}
+
+.field {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 7px;
+
+    min-width: 0;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #cbd5e1;
+}
+
+.field input,
+.field textarea,
+.field select {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #334155;
+    border-radius: 8px;
+
+    font: inherit;
+
+    color: #f8fafc;
+    background-color: #0f172a;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+}
+
+.field textarea {
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: #64748b;
+}
+
+.fieldRow {
+    display: flex;
+    gap: 16px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #26364f;
+}
+
+.mainActions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.cancelButton {
+    border: 1px solid #334155;
+
+    color: #cbd5e1;
+    background-color: transparent;
+}
+
+.cancelButton:hover {
+    background-color: #1e293b;
+}
+
+.submitButton {
+    border: 1px solid #2563eb;
+    
+    color: white;
+    background-color: #2563eb;
+}
+
+.submitButton:hover {
+    border-color: #1d4ed8;
+    background-color: #1d4ed8;
+}
+
+.deleteButton {
+    border: 1px solid #7f1d1d;
+
+    color: #fca5a5;
+    background-color: transparent;
+}
+
+.deleteButton:hover {
+    border-color: #991b1b;
+    background-color: rgba(127, 29, 29, 0.25);
+}
+
+@media (max-width: 600px) {
+    .fieldRow {
+        flex-direction: column;
+    }
+
+    .actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .mainActions {
+        width: 100%;
+    }
+
+    .mainActions button {
+        flex: 1;
+    }
+
+    .deleteButton {
+        width: 100%;
+    }
+}

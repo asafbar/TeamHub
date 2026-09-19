@@ -33,6 +33,14 @@ async function createTask(userId, workspaceId, taskData) {
         }
     }
 
+    const tasks = await taskRepository.getWorkspaceTasks(workspaceId)
+
+    const statusTasks = tasks.filter(
+        (task) => task.statusId.toString() === taskData.statusId
+    )
+
+    const position = statusTasks.length
+
     return await taskRepository.createTask({
         workspaceId,
         title: taskData.title,
@@ -42,7 +50,7 @@ async function createTask(userId, workspaceId, taskData) {
         assigneeMembershipId: taskData.assigneeMembershipId || null,
         createdByUserId: userId,
         dueDate: taskData.dueDate || null,
-        position: taskData.position
+        position: position
     })
 }
 

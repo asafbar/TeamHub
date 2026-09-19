@@ -12,6 +12,7 @@ import {
     deleteTaskAsync
 } from "../store/taskSlice"
 import type { WorkspaceMember } from "../../workspaces/types/WorkspaceTypes"
+import styles from './TaskForm.module.css'
 
 type TaskFormProps = {
     workspaceId: string
@@ -64,7 +65,6 @@ function TaskForm({
                         priorityId,
                         assigneeMembershipId: assigneeMembershipId || null,
                         dueDate: dueDate || null,
-                        position: Date.now()
                     }
                 })
             )
@@ -86,8 +86,7 @@ function TaskForm({
                     statusId,
                     priorityId,
                     assigneeMembershipId: assigneeMembershipId || null,
-                    dueDate: dueDate || null,
-                    position: Date.now()
+                    dueDate: dueDate || null
                 }
             })
         )
@@ -117,27 +116,56 @@ function TaskForm({
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.header}>
             <div>
-                <label>Title</label>
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                />
+                <h2 className={styles.title}>
+                    {task ? "Edit Task" : "New Task"}
+                </h2>
+
+                <p className={styles.subtitle}>
+                    {task
+                        ? "Update the task details below."
+                        : "Add a new task to your workspace."}
+                </p>
             </div>
 
-            <div>
-                <label>Description</label>
-                <textarea
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                ></textarea>
-            </div>
+            <button
+                type="button"
+                className={styles.closeButton}
+                onClick={onCancel}
+                aria-label="Close"
+            >
+                ×
+            </button>
+        </div>
 
-            <div>
-                <label>Status</label>
+        <div className={styles.field}>
+            <label htmlFor="task-title">Title</label>
+            <input
+                id="task-title"
+                type="text"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                placeholder="Enter task title"
+            />
+        </div>
+
+        <div className={styles.field}>
+            <label htmlFor="task-description">Description</label>
+            <textarea
+                id="task-description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                placeholder="Add a description..."
+            />
+        </div>
+
+        <div className={styles.fieldRow}>
+            <div className={styles.field}>
+                <label htmlFor="task-status">Status</label>
                 <select
+                    id="task-status"
                     value={statusId}
                     onChange={(event) => setStatusId(event.target.value)}
                 >
@@ -145,19 +173,17 @@ function TaskForm({
                         .slice()
                         .sort((a, b) => a.position - b.position)
                         .map((status) => (
-                            <option
-                                key={status.id}
-                                value={status.id}
-                            >
+                            <option key={status.id} value={status.id}>
                                 {status.name}
                             </option>
                         ))}
                 </select>
             </div>
 
-            <div>
-                <label>Priority</label>
+            <div className={styles.field}>
+                <label htmlFor="task-priority">Priority</label>
                 <select
+                    id="task-priority"
                     value={priorityId}
                     onChange={(event) => setPriorityId(event.target.value)}
                 >
@@ -165,70 +191,75 @@ function TaskForm({
                         .slice()
                         .sort((a, b) => a.position - b.position)
                         .map((priority) => (
-                            <option
-                                key={priority.id}
-                                value={priority.id}
-                            >
+                            <option key={priority.id} value={priority.id}>
                                 {priority.name}
                             </option>
-                        ))
-                    }
+                        ))}
                 </select>
             </div>
+        </div>
 
-            <label>
-                Assignee
+        <div className={styles.fieldRow}>
+            <div className={styles.field}>
+                <label htmlFor="task-assignee">Assignee</label>
                 <select
+                    id="task-assignee"
                     value={assigneeMembershipId}
                     onChange={(event) => setAssigneeMembershipId(event.target.value)}
                 >
-                    <option value="">
-                        Unassigned
-                    </option>
+                    <option value="">Unassigned</option>
 
                     {members.map((member) => (
-                        <option
-                            key={member.id}
-                            value={member.id}
-                        >
+                        <option key={member.id} value={member.id}>
                             {member.user.username}
                         </option>
                     ))}
                 </select>
-            </label>
+            </div>
 
-            <label>
-                Due Date
+            <div className={styles.field}>
+                <label htmlFor="task-due-date">Due Date</label>
                 <input
+                    id="task-due-date"
                     type="date"
                     value={dueDate}
                     onChange={(event) => setDueDate(event.target.value)}
                 />
-            </label>
+            </div>
+        </div>
 
-            <button type="submit">
-                {task ? "Save Changes" : "Create Task"}
-            </button>
+        <div className={styles.actions}>
+            <div>
+                {task && (
+                    <button
+                        type="button"
+                        className={styles.deleteButton}
+                        onClick={handleDelete}
+                    >
+                        Delete Task
+                    </button>
+                )}
+            </div>
 
-            <button
-                type="button"
-                onClick={onCancel}
-            >
-                Cancel
-            </button>
-
-            {task && (
+            <div className={styles.mainActions}>
                 <button
                     type="button"
-                    onClick={handleDelete}
+                    className={styles.cancelButton}
+                    onClick={onCancel}
                 >
-                    Delete Task
+                    Cancel
                 </button>
-            )
-            }
 
-        </form>
-    )
+                <button
+                    type="submit"
+                    className={styles.submitButton}
+                >
+                    {task ? "Save Changes" : "Create Task"}
+                </button>
+            </div>
+        </div>
+    </form>
+)
 }
 
 export default TaskForm

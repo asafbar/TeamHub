@@ -4,7 +4,12 @@ const createTaskPriorityValidator = [
     body("name")
         .trim()
         .notEmpty()
-        .withMessage("Task name is required.")
+        .withMessage("Task priority name is required."),
+
+    body("color")
+        .optional({nullable: true})
+        .matches(/^#[0-9A-Fa-f]{6}$/)
+        .withMessage("Color must be a valid hex color.")
 ]
 
 const updateTaskPriorityValidator = [
@@ -12,7 +17,12 @@ const updateTaskPriorityValidator = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage("Task name cannot be empty.")
+        .withMessage("Task name cannot be empty."),
+
+        body("color")
+        .optional({nullable: true})
+        .matches(/^#[0-9A-Fa-f]{6}$/)
+        .withMessage("Color must be a valid hex color.")
 ]
 
 const reorderTaskPrioritiesValidator = [

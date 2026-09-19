@@ -35,10 +35,10 @@ function WorkspacePage() {
 
 
     console.log("TASK BOARD DATA:", {
-    tasks,
-    statuses,
-    priorities
-})
+        tasks,
+        statuses,
+        priorities
+    })
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ function WorkspacePage() {
         return <p>{error}</p>
     }
 
-    if(!workspaceId) {
+    if (!workspaceId) {
         return <p>Invalid workspace</p>
     }
 
@@ -79,9 +79,9 @@ function WorkspacePage() {
                     </p>
                 </div>
 
-                <button 
+                <button
                     className="new-task-button"
-                    onClick={()=> {
+                    onClick={() => {
                         setSelectedTask(null)
                         setShowTaskForm(true)
                     }}
@@ -93,16 +93,21 @@ function WorkspacePage() {
             <h2 className="tasks-title">Tasks</h2>
 
             {showTaskForm && workspaceId && (
-                <TaskForm
-                    workspaceId={workspaceId}
-                    statuses={statuses}
-                    priorities={priorities}
-                    members={members}
-                    task={selectedTask ?? undefined}
-                    onCancel={() => setShowTaskForm(false)}
-                    onCreated={() => setShowTaskForm(false)}
-                    onDelete={() => setShowTaskForm(false)}
-                />
+                <div className="task-modal-overlay">
+                    <div className="task-modal">
+
+                        <TaskForm
+                            workspaceId={workspaceId}
+                            statuses={statuses}
+                            priorities={priorities}
+                            members={members}
+                            task={selectedTask ?? undefined}
+                            onCancel={() => setShowTaskForm(false)}
+                            onCreated={() => setShowTaskForm(false)}
+                            onDelete={() => setShowTaskForm(false)}
+                        />
+                    </div>
+                </div>
             )}
 
             <TaskBoard

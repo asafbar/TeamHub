@@ -5,6 +5,7 @@ function toTaskPriorityResponse(priority) {
         id: priority._id,
         workspaceId: priority.workspaceId,
         name: priority.name,
+        color: priority.color,
         position: priority.position
     }
 }
