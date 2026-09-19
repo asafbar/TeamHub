@@ -2,22 +2,23 @@
     flex: 1 0 260px;
 
     min-width: 260px;
-    min-height: 420px;
+    min-height: 0;
 
-    padding: 0 18px 18px;
+    display: flex;
+    flex-direction: column;
 
     border: 1px solid #26344d;
     border-radius: 12px;
 
     background-color: #131d31;
+
+    overflow: hidden;
 }
 
 .title {
-    position: sticky;
-    top: 0;
-    z-index: 20;
+    flex-shrink: 0;
 
-    margin: 0 -18px 10px;
+    margin: 0;
     padding: 14px 18px;
 
     font-size: 20px;
@@ -26,13 +27,14 @@
     color: #f1f5f9;
     background-color: #131d31;
 
-    border-radius: 12px 12px 0 0;
     border-bottom: 1px solid #26364f;
 }
 
 .tasks {
-    position: relative;
-    z-index: 1;
+    flex: 1;
+    min-height: 0;
 
-    padding-top: 6px;
+    padding: 16px 18px 18px;
+
+    overflow-y: auto;
 }
