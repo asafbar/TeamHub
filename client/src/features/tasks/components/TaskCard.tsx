@@ -17,7 +17,7 @@ function TaskCard({
 }: TaskCardProps) {
 
     const { ref, handleRef } = useSortable({
-        id: task.id ,
+        id: task.id,
         index,
         group: task.statusId,
         type: "task",
@@ -30,18 +30,19 @@ function TaskCard({
             className={styles.card}
             onClick={() => onClick(task)}
         >
-
-            <button
+            <div
                 ref={handleRef}
-                type="button"
+                className={styles.dragHeader}
                 aria-label="Drag task"
             >
-                ☰
-            </button>
+                <h3 className={styles.title}>
+                    {task.title}
+                </h3>
 
-            <h3 className={styles.title}>
-                {task.title}
-            </h3>
+                <span className={styles.dragIndicator}>
+                    ⋮⋮
+                </span>
+            </div>
 
             <p className={styles.description}>
                 {task.description}

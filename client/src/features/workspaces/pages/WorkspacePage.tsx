@@ -10,6 +10,7 @@ import { loadTaskBoardAsync } from "../../tasks/store/taskSlice"
 import TaskBoard from "../../tasks/components/TaskBoard"
 import TaskForm from "../../tasks/components/TaskForm"
 import type { Task } from "../../tasks/types/TaskTypes"
+import "./WorkspacePage.css"
 
 function WorkspacePage() {
 
@@ -31,6 +32,14 @@ function WorkspacePage() {
         statuses,
         priorities
     } = useSelector((state: RootState) => state.tasks)
+
+
+    console.log("TASK BOARD DATA:", {
+    tasks,
+    statuses,
+    priorities
+})
+
 
     useEffect(() => {
         if (workspaceId) {
@@ -58,20 +67,30 @@ function WorkspacePage() {
     }
 
     return (
-        <div>
+        <div className="workspace-page">
+            <header className="workspace-header">
+                <div>
+                    <h1 className="workspace-title">
+                        {selectedWorkspace.name}
+                    </h1>
 
-            <h1>{selectedWorkspace.name}</h1>
-            <p>{selectedWorkspace.description}</p>
+                    <p className="workspace-description">
+                        {selectedWorkspace.description}
+                    </p>
+                </div>
 
-            <h2>Tasks</h2>
+                <button 
+                    className="new-task-button"
+                    onClick={()=> {
+                        setSelectedTask(null)
+                        setShowTaskForm(true)
+                    }}
+                >
+                    + New Task
+                </button>
+            </header>
 
-            <button
-                onClick={() => {
-                    setSelectedTask(null)
-                    setShowTaskForm(true)
-                }}>
-                + New Task
-            </button>
+            <h2 className="tasks-title">Tasks</h2>
 
             {showTaskForm && workspaceId && (
                 <TaskForm

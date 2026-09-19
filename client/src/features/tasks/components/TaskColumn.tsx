@@ -1,6 +1,6 @@
 import styles from "./TaskColumn.module.css"
 import { useDroppable } from "@dnd-kit/react"
-import {CollisionPriority} from "@dnd-kit/abstract"
+import { CollisionPriority } from "@dnd-kit/abstract"
 
 import type {
     Task,
@@ -23,34 +23,36 @@ function TaskColumn({
     onTaskClick
 }: TaskColumnProps) {
 
-    const {ref} = useDroppable({
+    const { ref } = useDroppable({
         id: status.id,
         collisionPriority: CollisionPriority.Low
     })
 
     return (
         <div
-        ref={ref} 
-        className={styles.column}
+            ref={ref}
+            className={styles.column}
         >
             <h2 className={styles.title}>{status.name}</h2>
+            
+            <div className={styles.tasks}>
+                {tasks.map((task, index) => {
 
-            {tasks.map((task, index) => {
+                    const priority = priorities.find(
+                        (priority) => priority.id === task.priorityId
+                    )
 
-                const priority= priorities.find(
-                    (priority) => priority.id === task.priorityId
-                )
-
-                return (
-                    <TaskCard 
-                        key={task.id}
-                        task={task}
-                        priority={priority}
-                        index={index}
-                        onClick={onTaskClick}
-                    />
-                )
-            })}
+                    return (
+                        <TaskCard
+                            key={task.id}
+                            task={task}
+                            priority={priority}
+                            index={index}
+                            onClick={onTaskClick}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

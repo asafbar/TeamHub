@@ -1,12 +1,38 @@
 .column {
-    flex: 0 0 280px;
-    min-height: 300px;
-    padding: 16px;
-    border: 1px solid #333;
-    border-radius: 10px;
+    flex: 1 0 260px;
+
+    min-width: 260px;
+    min-height: 420px;
+
+    padding: 0 18px 18px;
+
+    border: 1px solid #26344d;
+    border-radius: 12px;
+
+    background-color: #131d31;
 }
 
 .title {
-    margin-top: 0;
-    margin-bottom: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    margin: 0 -18px 10px;
+    padding: 14px 18px;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #f1f5f9;
+    background-color: #131d31;
+
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #26364f;
+}
+
+.tasks {
+    position: relative;
+    z-index: 1;
+
+    padding-top: 6px;
 }

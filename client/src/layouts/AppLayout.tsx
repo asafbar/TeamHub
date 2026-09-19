@@ -4,16 +4,17 @@ import { useDispatch } from "react-redux"
 import { logout } from "../features/auth/store/authSlice"
 import { useNavigate } from "react-router-dom"
 import type { AppDispatch } from "../store/store"
+import "./AppLayout.css"
 
 type AppLayoutProps = {
     children: ReactNode
 }
 
 function AppLayout({ children }: AppLayoutProps) {
-    
+
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
-    
+
     function handleLogout() {
         logoutUser()
         dispatch(logout())
@@ -21,17 +22,48 @@ function AppLayout({ children }: AppLayoutProps) {
     }
 
     return (
-        <div>
-            <header>
-                <h2>TeamHub</h2>
-                <button onClick={handleLogout}>
+        <div className="app-layout">
+
+            <aside className="sidebar">
+                <div className="sidebar-logo">
+                    <div className="sidebar-logo-icon">👥</div>
+
+                    <div>
+                        <h2>TeamHub</h2>
+                        <span>Work Together</span>
+                    </div>
+                </div>
+
+                <nav className="sidebar-nav">
+                    <button className="sidebar-nav-item active">
+                        Workspaces
+                    </button>
+
+                    <button className="sidebar-nav-item">
+                        Notifications
+                    </button>
+
+                    <button className="sidebar-nav-item">
+                        Profile
+                    </button>
+
+                    <button className="sidebar-nav-item">
+                        Settings
+                    </button>
+                </nav>
+
+                <button
+                    className="sidebar-logout"
+                    onClick={handleLogout}
+                >
                     Logout
                 </button>
-            </header>
+            </aside>
 
-            <main>
+            <main className="app-content">
                 {children}
             </main>
+
         </div>
     )
 }
