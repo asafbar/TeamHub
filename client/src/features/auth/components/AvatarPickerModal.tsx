@@ -25,6 +25,7 @@ function AvatarPickerModal({
                     <h2>Choose your avatar</h2>
 
                     <button
+                        className={styles.closeButton}
                         type="button"
                         onClick={onCancel}
                     >
@@ -52,16 +53,18 @@ function AvatarPickerModal({
 
                 <div className={styles.actions}>
                     <button
+                        className={styles.cancelButton}
                         type="button"
                         onClick={onCancel}
                     >
                         Cancel
                     </button>
 
-                    <button 
-                    type="button"
-                    onClick={onSave}
-                    disabled={!selectedAvatar}
+                    <button
+                        className={styles.saveButton}
+                        type="button"
+                        onClick={onSave}
+                        disabled={!selectedAvatar}
                     >
                         Save
                     </button>

@@ -7,10 +7,10 @@
     display: flex;
     flex-direction: column;
 
-    border: 1px solid #26344d;
-    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
 
-    background-color: #131d31;
+    background-color: var(--color-surface);
 
     overflow: hidden;
 }
@@ -21,13 +21,13 @@
     margin: 0;
     padding: 14px 18px;
 
-    font-size: 20px;
-    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
 
-    color: #f1f5f9;
-    background-color: #131d31;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
 
-    border-bottom: 1px solid #26364f;
+    border-bottom: 1px solid var(--color-border-column-header);
 }
 
 .tasks {

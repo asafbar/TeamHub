@@ -2,20 +2,20 @@
     padding: 14px;
     margin-bottom: 12px;
 
-    border: 1px solid #2b3a52;
-    border-radius: 10px;
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--radius-md);
 
-    background-color: #1b2940;
+    background-color: var(--color-surface-secondary);
 
     transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        transform 0.2s ease;
+        border-color var(--transition-normal),
+        background-color var(--transition-normal),
+        transform var(--transition-normal);
 }
 
 .card:hover {
-    border-color: #3b82f6;
-    background-color: #1e304b;
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-hover);
 }
 
 .dragHeader {
@@ -37,11 +37,11 @@
 .title {
     margin: 0;
 
-    font-size: 16px;
-    font-weight: 700;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
     line-height: 1.3;
 
-    color: #f8fafc;
+    color: var(--color-text-heading);
 }
 
 .dragIndicator {
@@ -50,10 +50,11 @@
     font-size: 16px;
     letter-spacing: -3px;
 
-    color: #64748b;
+    color: var(--color-text-subtle);
+    
 
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition-normal);
 }
 
 .dragHeader:hover .dragIndicator {
@@ -63,10 +64,10 @@
 .description {
     margin: 0 0 12px;
 
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     line-height: 1.4;
 
-    color: #cbd5e1;
+    color: var(--color-text-secondary);
 }
 
 .priority {
@@ -80,18 +81,18 @@
     border: 1px solid;
     border-radius: 999px;
 
-    font-size: 12px;
-    font-weight: 600;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
     line-height: 1;
 
-    background-color: #162238;
+    background-color: var(--color-priority-background);
 }
 
 .priorityDot {
     width: 7px;
     height: 7px;
 
-    border-radius: 50%;
+    border-radius: var(--radius-round);
 
     flex-shrink: 0;
 }
@@ -123,14 +124,14 @@
 
     flex-shrink: 0;
 
-    border: 1px solid #334155;
-    border-radius: 50%;
+    border: 1px solid var(--color-border-avatar);
+    border-radius: var(--radius-round);
 
     font-size: 11px;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
 
-    color: #e2e8f0;
-    background-color: #26364f;
+    color: var(--color-text-primary);
+    background-color: var(--color-avatar-background);
 
     overflow: hidden;
 }
@@ -145,9 +146,9 @@
 .assigneeName {
     overflow: hidden;
 
-    font-size: 12px;
+    font-size: var(--font-size-xs);
 
-    color: #94a3b8;
+    color: var(--color-text-muted);
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -160,13 +161,13 @@
 
     flex-shrink: 0;
 
-    font-size: 12px;
+    font-size: var(--font-size-xs);
 
-    color: #94a3b8;
+    color: var(--color-text-muted);
 }
 
 .calendarIcon {
     font-size: 11px;
 
-    color: #64748b;
+    color: var(--color-text-muted);
 }

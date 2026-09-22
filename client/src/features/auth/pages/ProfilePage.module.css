@@ -1,0 +1,96 @@
+.page {
+    width: 100%;
+    max-width: 760px;
+    padding: var(--spacing-xl);
+}
+
+.title {
+    margin: 0;
+
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+
+    color: var(--color-text-heading);
+}
+
+.subtitle {
+    margin: var(--spacing-sm) 0 var(--spacing-xl);
+
+    font-size: var(--font-size-sm);
+
+    color: var(--color-text-muted);
+}
+
+.profileCard {
+    padding: var(--spacing-xl);
+
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--radius-lg);
+
+    background-color: var(--color-surface);
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+
+    padding-bottom: var(--spacing-xl);
+
+    border-bottom: 1px solid var(--color-border-column-header);
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-round);
+
+    object-fit: cover;
+}
+
+.identity h2 {
+    margin: 0;
+
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+
+    color: var(--color-text-heading);
+}
+
+.identity p {
+    margin: var(--spacing-sm) 0 0;
+
+    font-size: var(--font-size-sm);
+
+    color: var(--color-text-muted);
+}
+
+.changeAvatarButton {
+    margin-top: var(--spacing-xl);
+
+    padding: 10px var(--spacing-lg);
+
+    border: 1px solid var(--color-primary-button);
+    border-radius: var(--radius-control);
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+
+    color: var(--color-text-primary);
+    background-color: var(--color-primary-button);
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition-normal),
+        background-color var(--transition-normal);
+}
+
+.changeAvatarButton:hover {
+    border-color: var(--color-primary-button-hover);
+    background-color: var(--color-primary-button-hover);
+}

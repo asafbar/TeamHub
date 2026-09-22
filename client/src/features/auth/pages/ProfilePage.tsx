@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../../../store/store"
-import { useState } from "react"
+import { use, useState } from "react"
 import { getAvatarUrl } from "../../../utils/avatarUtils"
 import AvatarPickerModal from "../components/AvatarPickerModal"
 import { updateAvatarAsync } from "../store/authSlice"
+import styles from "./ProfilePage.module.css"
 
 function ProfilePage() {
 
@@ -27,41 +28,40 @@ function ProfilePage() {
     }
 
     return (
-        <>
-            <h1>Profile</h1>
-            <p>Manage your profile and avatar</p>
+        <main className={styles.page}>
+            <h1 className={styles.title}>Profile</h1>
+            <p className={styles.subtitle}>Manage your profile and avatar</p>
 
-            {user.avatar && (
-                <img
-                    src={getAvatarUrl(user.avatar)}
-                    alt={user.username}
-                    width="120"
-                    height="120"
-                />
-            )}
+            <div className={styles.profileCard}>
+                <div className={styles.profileHeader}>
+                    {user.avatar && (
+                        <img
+                            className={styles.avatar}
+                            src={getAvatarUrl(user.avatar)}
+                            alt={user.username}
+                            width="120"
+                            height="120"
+                        />
+                    )}
 
-            <div>
-                <p>
-                    <strong>Username:</strong> {user.username}
-                </p>
+                    <div className={styles.identity}>
+                    <h2>{user.username}</h2>
+                    <p>{user.email}</p>
+                    </div>
 
-                <p>
-                    <strong>Email:</strong> {user.email}
-                </p>
+                </div>
 
-                <p>
-                    <strong>Avatar:</strong> {user.avatar ?? "Not selected"}
-                </p>
+                {!isChangingAvatar && (
+                    <button
+                        className={styles.changeAvatarButton}
+                        type="button"
+                        onClick={() => setIsChangingAvatar(true)}
+                    >
+                        Change Avatar
+                    </button>
+                )}
+
             </div>
-
-            {!isChangingAvatar && (
-                <button
-                    type="button"
-                    onClick={() => setIsChangingAvatar(true)}
-                >
-                    Change Avatar
-                </button>
-            )}
 
             {isChangingAvatar && (
                 <AvatarPickerModal
@@ -75,7 +75,7 @@ function ProfilePage() {
                 />
             )}
 
-        </>
+        </main>
     )
 }
 
