@@ -6,6 +6,7 @@ import TaskBoardPage from "../features/tasks/pages/TaskBoardPage";
 import WorkspaceListPage from "../features/workspaces/pages/WorkspaceListPage";
 import ProtectedRoute from "./ProtectedRoute";
 import WorkspacePage from "../features/workspaces/pages/WorkspacePage";
+import ProfilePage from "../features/auth/pages/ProfilePage";
 
 function AppRouter() {
     return (
@@ -21,6 +22,14 @@ function AppRouter() {
                     <ProtectedRoute>
                         <AppLayout>
                             <WorkspaceListPage />
+                        </AppLayout>
+                    </ProtectedRoute>
+                } />
+
+                <Route path="/profile" element={
+                    <ProtectedRoute>
+                        <AppLayout>
+                            <ProfilePage />
                         </AppLayout>
                     </ProtectedRoute>
                 } />

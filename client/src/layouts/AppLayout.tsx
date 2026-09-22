@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import { logoutUser } from "../features/auth/services/AuthService"
 import { useDispatch } from "react-redux"
 import { logout } from "../features/auth/store/authSlice"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import type { AppDispatch } from "../store/store"
 import "./AppLayout.css"
 
@@ -14,6 +14,7 @@ function AppLayout({ children }: AppLayoutProps) {
 
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
+    const location = useLocation()
 
     function handleLogout() {
         logoutUser()
@@ -35,7 +36,14 @@ function AppLayout({ children }: AppLayoutProps) {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <button className="sidebar-nav-item active">
+                    <button className={`sidebar-nav-item ${
+                        location.pathname === "/" ||
+                        location.pathname.startsWith("/workspace")
+                        ? "active"
+                        :
+                        ""
+                    }`}
+                        onClick={() => navigate("/")}>
                         Workspaces
                     </button>
 
@@ -43,7 +51,10 @@ function AppLayout({ children }: AppLayoutProps) {
                         Notifications
                     </button>
 
-                    <button className="sidebar-nav-item">
+                    <button className={`sidebar-nav-item ${
+                        location.pathname === "/profile" ? "active" : ""
+                    }`}
+                        onClick={() => navigate("/profile")}>
                         Profile
                     </button>
 

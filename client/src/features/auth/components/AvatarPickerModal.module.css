@@ -1,0 +1,88 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background-color: rgba(2, 6, 23, 0.72);
+    backdrop-filter: blur(3px);
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+
+    width: min(650px, 100%);
+    max-height: calc(100vh - 48px);
+
+    padding: 24px;
+
+    border: 1px solid #2b3a52;
+    border-radius: 14px;
+
+    background-color: #131d31;
+
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    margin: 0
+}
+
+.avatarGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 70px);
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 4px;
+
+    overflow-y: auto;
+}
+
+.avatarOption {
+    width: 70px;
+    height: 70px;
+
+    padding: 3px;
+
+    border: 3px solid transparent;
+    border-radius: 50%;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.avatarOption.selected {
+    border-color: #3b82f6;
+}
+
+.avatarOption img {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding-top: 20px;
+}

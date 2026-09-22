@@ -7,6 +7,7 @@ import { isSortable } from "@dnd-kit/react/sortable"
 import { useDispatch } from "react-redux"
 import type { AppDispatch } from "../../../store/store"
 import { useEffect, useState, useRef } from "react"
+import type { WorkspaceMember } from "../../workspaces/types/WorkspaceTypes"
 import {
     reorderTasksAsync
 } from "../store/taskSlice"
@@ -16,6 +17,7 @@ type TaskBoardProps = {
     tasks: Task[]
     statuses: TaskStatus[]
     priorities: TaskPriority[]
+    members: WorkspaceMember[]
     onTaskClick: (task: Task) => void
 }
 function TaskBoard({
@@ -23,6 +25,7 @@ function TaskBoard({
     tasks,
     statuses,
     priorities,
+    members,
     onTaskClick
 }: TaskBoardProps) {
 
@@ -270,6 +273,7 @@ function TaskBoard({
                                 status={status}
                                 tasks={statusTasks}
                                 priorities={priorities}
+                                members={members}
                                 onTaskClick={onTaskClick}
                             />
                         )

@@ -1,11 +1,11 @@
 import apiClient from "../../../api/apiClient";
-import type { 
+import type {
     LoginRequest,
-     LoginResponse,
+    LoginResponse,
     User
- } from "../types/AuthTypes";
+} from "../types/AuthTypes";
 
-async function login(credentials:LoginRequest): Promise<LoginResponse> {
+async function login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>(
         "/auth/login",
         credentials
@@ -20,7 +20,17 @@ async function getMe(): Promise<User> {
     return response.data.data
 }
 
+async function updateMe(avatar: string) {
+    const response = await apiClient.patch(
+        "/auth/me",
+        { avatar }
+    )
+
+    return response.data.data
+}
+
 export {
     login,
-    getMe
+    getMe,
+    updateMe
 }

@@ -1,6 +1,7 @@
 import styles from "./TaskColumn.module.css"
 import { useDroppable } from "@dnd-kit/react"
 import { CollisionPriority } from "@dnd-kit/abstract"
+import type { WorkspaceMember } from "../../workspaces/types/WorkspaceTypes"
 
 import type {
     Task,
@@ -13,6 +14,7 @@ type TaskColumnProps = {
     status: TaskStatus
     tasks: Task[]
     priorities: TaskPriority[]
+    members: WorkspaceMember[]
     onTaskClick: (task: Task) => void
 }
 
@@ -20,6 +22,7 @@ function TaskColumn({
     status,
     tasks,
     priorities,
+    members,
     onTaskClick
 }: TaskColumnProps) {
 
@@ -42,11 +45,16 @@ function TaskColumn({
                         (priority) => priority.id === task.priorityId
                     )
 
+                    const assignee = members.find(
+                        (member) => member.id === task.assigneeMembershipId
+                    )
+
                     return (
                         <TaskCard
                             key={task.id}
                             task={task}
                             priority={priority}
+                            assignee={assignee}
                             index={index}
                             onClick={onTaskClick}
                         />

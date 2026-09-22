@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { LoginResponse, LoginRequest, User } from "../types/AuthTypes"
-import { login, getMe } from "../api/AuthApi"
+import { login, getMe, updateMe } from "../api/AuthApi"
 import { getToken, saveToken } from "../services/AuthStorageService"
 
 type AuthState = {
@@ -55,6 +55,21 @@ export const loadCurrentUserAsync = createAsyncThunk<
     }
 )
 
+export const updateAvatarAsync = createAsyncThunk<
+    User,
+    string,
+    { rejectValue: string }
+>(
+    "auth/updateAvatar",
+    async (avatar, thunkApi) => {
+        try {
+            return await updateMe(avatar)
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not update avatar.")
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -67,6 +82,8 @@ const authSlice = createSlice({
     },
     extraReducers(builder) {
         builder
+
+            //login
             .addCase(loginAsync.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -81,6 +98,7 @@ const authSlice = createSlice({
                 state.error = action.payload ?? "Login failed."
             })
 
+            // current user (me)
             .addCase(loadCurrentUserAsync.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -92,6 +110,21 @@ const authSlice = createSlice({
             .addCase(loadCurrentUserAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not load current user"
+            })
+
+            // update avatar user (me)
+            .addCase(updateAvatarAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updateAvatarAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload
+                state.error = null
+            })
+            .addCase(updateAvatarAsync.rejected,(state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not update avatar."
             })
     },
 })

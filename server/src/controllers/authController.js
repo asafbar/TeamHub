@@ -24,7 +24,7 @@ async function login(req, res) {
         const result = await authService.loginUser(email, password)
 
         res.status(200).json(
-            successResponse("Login successful.", 
+            successResponse("Login successful.",
                 {
                     token: result.token,
                     user: toUserResponse(result.user)
@@ -56,8 +56,27 @@ async function me(req, res) {
     }
 }
 
+async function updateMe(req, res) {
+    try {
+        const user = await authService.updateCurrentUser(
+            req.user.id,
+            req.body
+        )
+
+        return res.status(200).json(
+            successResponse("User profile updated successfully.",
+                toUserResponse(user))
+        )
+    } catch (error) {
+        return res.status(404).json(
+            errorResponse(error.message)
+        )
+    }
+}
+
 module.exports = {
     register,
     login,
-    me
+    me,
+    updateMe
 }

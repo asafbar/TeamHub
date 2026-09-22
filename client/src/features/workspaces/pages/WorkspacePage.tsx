@@ -115,6 +115,7 @@ function WorkspacePage() {
                 tasks={tasks}
                 statuses={statuses}
                 priorities={priorities}
+                members={members}
                 onTaskClick={(task) => {
                     setSelectedTask(task)
                     setShowTaskForm(true)

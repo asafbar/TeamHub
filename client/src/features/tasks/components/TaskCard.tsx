@@ -1,10 +1,13 @@
 import type { Task, TaskPriority } from "../types/TaskTypes"
 import styles from "./TaskCard.module.css"
 import { useSortable } from "@dnd-kit/react/sortable"
+import type { WorkspaceMember } from "../../workspaces/types/WorkspaceTypes"
+import { getAvatarUrl } from "../../../utils/avatarUtils"
 
 type TaskCardProps = {
     task: Task
     priority?: TaskPriority
+    assignee?: WorkspaceMember
     index: number
     onClick: (task: Task) => void
 }
@@ -12,6 +15,7 @@ type TaskCardProps = {
 function TaskCard({
     task,
     priority,
+    assignee,
     index,
     onClick
 }: TaskCardProps) {
@@ -64,6 +68,40 @@ function TaskCard({
                     />
                     {priority.name}
                 </span>
+            )}
+
+            {(assignee || task.dueDate) && (
+                <div className={styles.meta}>
+                    {assignee && (
+                        <div className={styles.assignee}>
+                            <div className={styles.avatar}>
+                                {assignee.user.avatar ? (
+                                    <img src={getAvatarUrl(assignee.user.avatar)}
+                                        alt={assignee.user.username}
+                                    />
+                                ) : (
+                                    <span>
+                                        {assignee.user.username.charAt(0).toUpperCase()}
+                                    </span>
+                                )}
+                            </div>
+
+                            <span className={styles.assigneeName}>
+                                {assignee.user.username}
+                            </span>
+                        </div>
+                    )}
+
+                    {task.dueDate && (
+                        <div className={styles.dueDate}>
+                            <span className={styles.calendarIcon}>▣</span>
+                            {new Date(task.dueDate).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short"
+                            })}
+                        </div>
+                    )}
+                </div>
             )}
         </div >
     )

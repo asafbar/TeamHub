@@ -14,20 +14,29 @@ const registerValidator = [
     body("password")
         .isLength({ min: 6 })
         .withMessage("Password must by at least 6 characters long.")
-    ]
-    
-    const loginValidator = [
-        body("email")
+]
+
+const loginValidator = [
+    body("email")
         .trim()
         .isEmail()
         .withMessage("A valide email is required."),
-        
-        body("password")
-            .notEmpty()
-            .withMessage("Password is required.")
+
+    body("password")
+        .notEmpty()
+        .withMessage("Password is required.")
+]
+
+const updateMeValidator = [
+    body("avatar")
+    .notEmpty()
+    .withMessage("Avatar is required.")
+    .matches(/^avatar-\d{3}\.svg$/)
+    .withMessage("Invalid avatar.")
 ]
 
 module.exports = {
     registerValidator,
-    loginValidator
+    loginValidator,
+    updateMeValidator
 }

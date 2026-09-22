@@ -52,15 +52,31 @@ async function loginUser(email, password) {
 async function getCurrentUser(userId) {
     const user = await userRepository.getUserById(userId)
 
-    if(!user) {
+    if (!user) {
         throw new Error("User not found.")
     }
 
     return user
 }
 
+async function updateCurrentUser(userId, userData) {
+    const user = await userRepository.updateUserById(
+        userId,
+        {
+            avatar: userData.avatar
+        }
+    )
+
+    if (!user) {
+        throw new Error("User not found.")
+    }
+    
+    return user
+}
+
 module.exports = {
     registerUser,
     loginUser,
-    getCurrentUser
+    getCurrentUser,
+    updateCurrentUser
 }

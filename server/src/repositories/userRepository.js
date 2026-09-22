@@ -12,8 +12,20 @@ async function getUserById(id) {
     return await User.findById(id)
 }
 
+async function updateUserById(id, updateData) {
+    return await User.findByIdAndUpdate(
+        id, 
+        updateData,
+        {
+            new: true,
+            runValidators: true
+        }
+    )
+}
+
 module.exports = {
     createUser,
     getUserByEmail,
-    getUserById
+    getUserById,
+    updateUserById
 }
