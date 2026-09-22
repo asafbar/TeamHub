@@ -7,6 +7,7 @@ import WorkspaceListPage from "../features/workspaces/pages/WorkspaceListPage";
 import ProtectedRoute from "./ProtectedRoute";
 import WorkspacePage from "../features/workspaces/pages/WorkspacePage";
 import ProfilePage from "../features/auth/pages/ProfilePage";
+import SettingsPage from "../features/settings/pages/SettingsPage";
 
 function AppRouter() {
     return (
@@ -34,14 +35,23 @@ function AppRouter() {
                     </ProtectedRoute>
                 } />
 
-                <Route path="/workspaces/:workspaceId"
-                element={
+                <Route path="/settings" element={
                     <ProtectedRoute>
                         <AppLayout>
-                            <WorkspacePage/>
+                            <SettingsPage />
                         </AppLayout>
                     </ProtectedRoute>
                 }
+                />
+
+                <Route path="/workspaces/:workspaceId"
+                    element={
+                        <ProtectedRoute>
+                            <AppLayout>
+                                <WorkspacePage />
+                            </AppLayout>
+                        </ProtectedRoute>
+                    }
                 />
 
                 <Route path="/tasks" element={

@@ -58,7 +58,11 @@ function AppLayout({ children }: AppLayoutProps) {
                         Profile
                     </button>
 
-                    <button className="sidebar-nav-item">
+                    <button className={`sidebar-nav-item ${
+                        location.pathname === "/settings" ? "active" : ""
+                    }`}
+                        onClick={()=> navigate("/settings")}
+                    >
                         Settings
                     </button>
                 </nav>

@@ -29,10 +29,14 @@ const loginValidator = [
 
 const updateMeValidator = [
     body("avatar")
-    .notEmpty()
-    .withMessage("Avatar is required.")
+    .optional()
     .matches(/^avatar-\d{3}\.svg$/)
-    .withMessage("Invalid avatar.")
+    .withMessage("Invalid avatar."),
+
+    body("theme")
+    .optional()
+    .isIn(["dark", "light"])
+    .withMessage("Invalid theme")
 ]
 
 module.exports = {

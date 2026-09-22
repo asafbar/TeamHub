@@ -60,11 +60,18 @@ async function getCurrentUser(userId) {
 }
 
 async function updateCurrentUser(userId, userData) {
+    const allowedFields = ["avatar", "theme"]
+
+    const updatedData = Object.fromEntries(
+        Object.entries(userData).filter(
+            ([key, value]) =>
+                allowedFields.includes(key) && value !== undefined
+        )
+    )
+
     const user = await userRepository.updateUserById(
         userId,
-        {
-            avatar: userData.avatar
-        }
+        updatedData
     )
 
     if (!user) {
