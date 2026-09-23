@@ -63,9 +63,24 @@ export const updateAvatarAsync = createAsyncThunk<
     "auth/updateAvatar",
     async (avatar, thunkApi) => {
         try {
-            return await updateMe(avatar)
+            return await updateMe({ avatar })
         } catch (error) {
             return thunkApi.rejectWithValue("Could not update avatar.")
+        }
+    }
+)
+
+export const updateThemeAsync = createAsyncThunk<
+    User,
+    "dark" | "light",
+    { rejectValue: string }
+>(
+    "auth/updateTheme",
+    async (theme, thunkApi) => {
+        try {
+            return await updateMe({ theme })
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not update theme.")
         }
     }
 )
@@ -122,9 +137,24 @@ const authSlice = createSlice({
                 state.user = action.payload
                 state.error = null
             })
-            .addCase(updateAvatarAsync.rejected,(state, action) => {
+            .addCase(updateAvatarAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not update avatar."
+            })
+
+            //update theme
+            .addCase(updateThemeAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updateThemeAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload
+                state.error = null
+            })
+            .addCase(updateThemeAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not update theme."
             })
     },
 })

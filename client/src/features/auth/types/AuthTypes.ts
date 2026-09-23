@@ -3,6 +3,7 @@ export type User = {
     username: string
     email: string
     avatar: string | null
+    theme: "dark" | "light"
 }
 
 export type LoginRequest = {

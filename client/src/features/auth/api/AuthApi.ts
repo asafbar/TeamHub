@@ -5,6 +5,11 @@ import type {
     User
 } from "../types/AuthTypes";
 
+type UpdateMeRequest = {
+    avatar?: string
+    theme?: "dark" | "light"
+}
+
 async function login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>(
         "/auth/login",
@@ -20,10 +25,10 @@ async function getMe(): Promise<User> {
     return response.data.data
 }
 
-async function updateMe(avatar: string) {
+async function updateMe(data: UpdateMeRequest): Promise<User> {
     const response = await apiClient.patch(
         "/auth/me",
-        { avatar }
+        data
     )
 
     return response.data.data
