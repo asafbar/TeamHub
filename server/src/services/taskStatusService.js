@@ -127,7 +127,9 @@ async function reorderTaskStatuses(
             "One or more task statuses do not belong to this workspace.")
     }
 
-    return await taskStatusRepository.reorderTaskStatuses(statusUpdates)
+    await taskStatusRepository.reorderTaskStatuses(statusUpdates)
+
+    return await taskStatusRepository.getWorkspaceStatuses(workspaceId)
 }
 
 module.exports = {

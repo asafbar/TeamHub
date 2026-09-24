@@ -1,3 +1,4 @@
+import axios from "axios"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type {
     Task,
@@ -5,7 +6,10 @@ import type {
     TaskPriority,
     CreateTaskRequest,
     UpdateTaskRequest,
-    ReorderTaskRequest
+    ReorderTaskRequest,
+    CreateTaskStatusRequest,
+    UpdateTaskStatusRequest,
+    ReorderTaskStatusesRequest
 } from "../types/TaskTypes"
 import {
     getTaskPriorities,
@@ -14,7 +18,11 @@ import {
     createTask,
     updateTask,
     deleteTask,
-    reorderTasks
+    reorderTasks,
+    createTaskStatus,
+    updateTaskStatus,
+    deleteTaskStatus,
+    reorderTaskStatuses
 } from "../api/TaskApi"
 
 type TaskState = {
@@ -59,6 +67,27 @@ type DeleteTaskArgs = {
 type ReorderTasksArgs = {
     workspaceId: string
     reorderData: ReorderTaskRequest
+}
+
+type CreateTaskStatusArgs = {
+    workspaceId: string
+    statusData: CreateTaskStatusRequest
+}
+
+type UpdateTaskStatusArgs = {
+    workspaceId: string
+    statusId: string
+    statusData: UpdateTaskStatusRequest
+}
+
+type DeleteTaskStatusArgs = {
+    workspaceId: string
+    statusId: string
+}
+
+type ReorderTaskStatusesArgs = {
+    workspaceId: string
+    reorderData: ReorderTaskStatusesRequest
 }
 
 export const loadTaskBoardAsync = createAsyncThunk<
@@ -158,6 +187,87 @@ export const reorderTasksAsync = createAsyncThunk<
     }
 )
 
+export const createTaskStatusAsync = createAsyncThunk<
+    TaskStatus,
+    CreateTaskStatusArgs,
+    { rejectValue: string }
+>(
+    "tasks/createTaskStatus",
+    async ({ workspaceId, statusData }, thunkApi) => {
+        try {
+            return await createTaskStatus(
+                workspaceId,
+                statusData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not create task status.")
+        }
+    }
+)
+
+export const updateTaskStatusAsync = createAsyncThunk<
+    TaskStatus,
+    UpdateTaskStatusArgs,
+    { rejectValue: string }
+>(
+    "tasks/updateTaskStatus",
+    async ({ workspaceId, statusId, statusData }, thunkApi) => {
+        try {
+            return await updateTaskStatus(
+                workspaceId,
+                statusId,
+                statusData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not update task status.")
+        }
+    }
+)
+
+export const deleteTaskStatusAsync = createAsyncThunk<
+    string,
+    DeleteTaskStatusArgs,
+    { rejectValue: string }
+>(
+    "tasks/deleteTaskStatus",
+    async ({ workspaceId, statusId }, thunkApi) => {
+        try {
+            await deleteTaskStatus(
+                workspaceId,
+                statusId
+            )
+
+            return statusId
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                return thunkApi.rejectWithValue(
+                    error.response?.data?.message ??
+                    "Could not delete task status."
+                )
+            }
+            return thunkApi.rejectWithValue("Could not delete task status.")
+        }
+    }
+)
+
+export const reorderTaskStatusesAsync = createAsyncThunk<
+    TaskStatus[],
+    ReorderTaskStatusesArgs,
+    { rejectValue: string }
+>(
+    "tasks/reorderTaskStatuses",
+    async ({ workspaceId, reorderData }, thunkApi) => {
+        try {
+            return await reorderTaskStatuses(
+                workspaceId,
+                reorderData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not reorder task statuses.")
+        }
+    }
+)
+
 const taskSlice = createSlice({
     name: "tasks",
     initialState,
@@ -248,6 +358,77 @@ const taskSlice = createSlice({
             .addCase(reorderTasksAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not reorder tasks."
+            })
+
+            // create task status
+            .addCase(createTaskStatusAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(createTaskStatusAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.statuses.push(action.payload)
+                state.error = null
+            })
+            .addCase(createTaskStatusAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not create task status."
+            })
+
+            //update task status
+            .addCase(updateTaskStatusAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updateTaskStatusAsync.fulfilled, (state, action) => {
+                state.loading = false
+                const statusIndex = state.statuses.findIndex(
+                    (status) => status.id === action.payload.id
+                )
+
+                if (statusIndex !== -1) {
+                    state.statuses[statusIndex] = action.payload
+                }
+
+                state.error = null
+            })
+            .addCase(updateTaskStatusAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not update task status."
+            })
+
+            // delete task status
+            .addCase(deleteTaskStatusAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(deleteTaskStatusAsync.fulfilled, (state, action) => {
+                state.loading = false
+
+                state.statuses = state.statuses.filter(
+                    (status) => status.id !== action.payload
+                )
+
+                state.error = null
+            })
+            .addCase(deleteTaskStatusAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not delete task status."
+            })
+
+            // reorder task statuses
+            .addCase(reorderTaskStatusesAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(reorderTaskStatusesAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.statuses = action.payload
+                state.error = null
+            })
+            .addCase(reorderTaskStatusesAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not reorder task statuses."
             })
     },
 })

@@ -1,5 +1,6 @@
 const taskStatusService = require('../services/taskStatusService')
 const { successResponse, errorResponse } = require('../utils/apiResponse')
+const { toTaskStatusResponse } = require('../utils/taskStatusMapper')
 
 async function createTaskStatus(req, res) {
     try {
@@ -16,7 +17,7 @@ async function createTaskStatus(req, res) {
         return res.status(201).json(
             successResponse(
                 "Task status created successfully.",
-                status
+                toTaskStatusResponse(status)
             )
         )
     } catch (error) {
@@ -41,7 +42,8 @@ async function updateTaskStatus(req, res) {
 
         return res.status(200).json(
             successResponse(
-                "Task status updated successfully."
+                "Task status updated successfully.",
+                toTaskStatusResponse(status)
             )
         )
     } catch (error) {
@@ -76,14 +78,17 @@ async function reorderTaskStatuses(req, res) {
         const { workspaceId } = req.params
         const { statusUpdates } = req.body
 
-        await taskStatusService.reorderTaskStatuses(
+        const statuses = await taskStatusService.reorderTaskStatuses(
             userId,
             workspaceId,
             statusUpdates
         )
 
         return res.status(200).json(
-            successResponse("Task statuses reorderd successfully.")
+            successResponse(
+                "Task statuses reordered successfully.",
+                statuses.map(toTaskStatusResponse)
+            )
         )
 
     } catch (error) {

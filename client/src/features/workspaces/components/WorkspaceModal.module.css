@@ -1,0 +1,81 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--spacing-xl);
+    background-color: var(--color-overlay);
+}
+
+.modal {
+    width: min(680px, 100%);
+    max-height: calc(100vh - 48px);
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+    margin: 0;
+
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-heading);
+}
+
+.description {
+    margin: var(--spacing-xs) 0 0;
+
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.closeButton {
+    flex-shrink: 0;
+
+    width: 36px;
+    height: 36px;
+
+    border: 0;
+    border-radius: var(--radius-control);
+
+    font-size: var(--font-size-xl);
+    line-height: 1;
+
+    color: var(--color-text-secondary);
+    background-color: transparent;
+
+    cursor: pointer;
+    transition: background-color var(--transition-normal);
+}
+
+.closeButton:hover {
+    background-color: var(--color-surface-control-hover);
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+}

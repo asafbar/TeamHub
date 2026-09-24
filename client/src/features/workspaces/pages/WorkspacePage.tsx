@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import type { AppDispatch, RootState } from "../../../store/store"
 import { useEffect, useState } from "react"
 import {
@@ -16,6 +16,7 @@ function WorkspacePage() {
 
     const { workspaceId } = useParams()
     const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
 
     const [showTaskForm, setShowTaskForm] = useState(false)
     const [selectedTask, setSelectedTask] = useState<Task | null>(null)
@@ -79,15 +80,26 @@ function WorkspacePage() {
                     </p>
                 </div>
 
-                <button
-                    className="new-task-button"
-                    onClick={() => {
-                        setSelectedTask(null)
-                        setShowTaskForm(true)
-                    }}
-                >
-                    + New Task
-                </button>
+                <div className="workspace-header-actions">
+
+                    <button
+                        className="workspace-settings-button"
+                        onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
+                    >
+                        Workspace Settings
+                    </button>
+
+                    <button
+                        className="new-task-button"
+                        onClick={() => {
+                            setSelectedTask(null)
+                            setShowTaskForm(true)
+                        }}
+                    >
+                        + New Task
+                    </button>
+                </div>
+
             </header>
 
             <h2 className="tasks-title">Tasks</h2>

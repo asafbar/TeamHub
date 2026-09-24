@@ -8,7 +8,10 @@ import type {
     TaskStatusesResponse,
     CreateTaskRequest,
     UpdateTaskRequest,
-    ReorderTaskRequest
+    ReorderTaskRequest,
+    CreateTaskStatusRequest,
+    UpdateTaskStatusRequest,
+    ReorderTaskStatusesRequest
 } from "../types/TaskTypes";
 
 async function getWorkspaceTasks(
@@ -26,6 +29,52 @@ async function getTaskStatuses(
 ): Promise<TaskStatus[]> {
     const response = await apiClient.get<TaskStatusesResponse>(
         `/workspaces/${workspaceId}/tasks/statuses`
+    )
+
+    return response.data.data
+}
+
+async function createTaskStatus(
+    workspaceId: string,
+    statusData: CreateTaskStatusRequest
+): Promise<TaskStatus> {
+    const response = await apiClient.post(
+        `/workspaces/${workspaceId}/tasks/statuses`,
+        statusData
+    )
+
+    return response.data.data
+}
+
+async function updateTaskStatus(
+    workspaceId: string,
+    statusId: string,
+    statusData: UpdateTaskStatusRequest
+): Promise<TaskStatus> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/statuses/${statusId}`,
+        statusData
+    )
+
+    return response.data.data
+}
+
+async function deleteTaskStatus(
+    workspaceId: string,
+    statusId: string
+): Promise<void> {
+    await apiClient.delete(
+        `/workspaces/${workspaceId}/tasks/statuses/${statusId}`
+    )
+}
+
+async function reorderTaskStatuses(
+    workspaceId: string,
+    reorderData: ReorderTaskStatusesRequest
+): Promise<TaskStatus[]> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/statuses/reorder`,
+        reorderData
     )
 
     return response.data.data
@@ -90,6 +139,10 @@ async function reorderTasks(
 export {
     getWorkspaceTasks,
     getTaskStatuses,
+    createTaskStatus,
+    updateTaskStatus,
+    deleteTaskStatus,
+    reorderTaskStatuses,
     getTaskPriorities,
     createTask,
     updateTask,

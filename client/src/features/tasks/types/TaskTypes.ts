@@ -20,6 +20,25 @@ export type TaskStatusesResponse = {
     data: TaskStatus[]
 }
 
+export type CreateTaskStatusRequest = {
+    name: string
+    isCompleted?: boolean
+}
+
+export type UpdateTaskStatusRequest = {
+    name?: string
+    isCompleted?: boolean
+}
+
+export type TaskStatusPositionUpdate = {
+    statusId: string
+    position: number
+}
+
+export type ReorderTaskStatusesRequest = {
+    statusUpdates: TaskStatusPositionUpdate[]
+}
+
 export type TaskPrioritiesResponse = {
     success: boolean
     message: string

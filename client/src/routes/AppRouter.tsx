@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import WorkspacePage from "../features/workspaces/pages/WorkspacePage";
 import ProfilePage from "../features/auth/pages/ProfilePage";
 import SettingsPage from "../features/settings/pages/SettingsPage";
+import WorkspaceSettingsPage from "../features/workspaces/pages/WorkspaceSettingsPage";
 
 function AppRouter() {
     return (
@@ -49,6 +50,16 @@ function AppRouter() {
                         <ProtectedRoute>
                             <AppLayout>
                                 <WorkspacePage />
+                            </AppLayout>
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route path="/workspaces/:workspaceId/settings"
+                    element={
+                        <ProtectedRoute>
+                            <AppLayout>
+                                <WorkspaceSettingsPage />
                             </AppLayout>
                         </ProtectedRoute>
                     }
