@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '../../../store/store'
-
 import { loginAsync } from '../store/authSlice'
 import { useNavigate } from 'react-router-dom'
+import styles from "./LoginForm.module.css"
 
 function LoginForm() {
 
@@ -12,9 +12,7 @@ function LoginForm() {
 
     const {
         loading,
-        error,
-        user,
-        token
+        error
     } = useSelector((state: RootState) => state.auth)
 
     const [email, setEmail] = useState("")
@@ -38,26 +36,66 @@ function LoginForm() {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="email">Email</label>
+        <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+        >
+            <div className={styles.field}>
+                <label
+                    className={styles.label}
+                    htmlFor="email"
+                >
+                    Email
+                </label>
 
-                <input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <input
+                    className={styles.input}
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder='Enter your email'
+                    autoComplete='email'
+                    required
+                />
             </div>
 
-            <div>
-                <label htmlFor="password">Password</label>
+            <div className={styles.field}>
+                <label
+                    className={styles.label}
+                    htmlFor="password"
+                >
+                    Password
+                </label>
 
-                <input id="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                <input
+                    className={styles.input}
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder='Enter your password'
+                    autoComplete='current-password'
+                    required
+                />
             </div>
-
-            <button type='submit' disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
-            </button>
 
             {error && (
-                <p>{error}</p>
+                <p
+                    className={styles.error}
+                    role='alert'
+                >
+                    {error}
+                </p>
             )}
+
+            <button
+                className={styles.submitButton}
+                type='submit'
+                disabled={loading}
+            >
+                {loading ? "Logging in..." : "Login"}
+            </button>
 
         </form>
     )
