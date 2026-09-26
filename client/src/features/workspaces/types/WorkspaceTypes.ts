@@ -4,6 +4,11 @@ export type Workspace = {
     description: string
 }
 
+export type CreateWorkspaceRequest = {
+    name: string
+    description?: string
+}
+
 export type WorkspacesResponse = {
     success: boolean
     message: string

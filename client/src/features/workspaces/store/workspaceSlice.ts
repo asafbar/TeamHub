@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type {
     Workspace,
-    WorkspaceMember
+    WorkspaceMember,
+    CreateWorkspaceRequest
 } from "../types/WorkspaceTypes"
 import {
     getWorkspaceById,
     getWorkspaces,
-    getWorkspaceMembers
+    getWorkspaceMembers,
+    createWorkspace
 } from "../api/WorkspaceApi"
 
 type WorkspaceState = {
@@ -24,6 +26,21 @@ const initialState: WorkspaceState = {
     loading: false,
     error: null
 }
+
+export const createWorkspaceAsync = createAsyncThunk<
+    Workspace,
+    CreateWorkspaceRequest,
+    { rejectValue: string }
+>(
+    "workspaces/createWorkspace",
+    async (workspaceData, thunkApi) => {
+        try {
+            return await createWorkspace(workspaceData)
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not create workspace.")
+        }
+    }
+)
 
 export const loadingWorkspacesAsync = createAsyncThunk<
     Workspace[],
@@ -80,7 +97,23 @@ const workspaceSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        //workspace list
+
+            // crate workspace
+            .addCase(createWorkspaceAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(createWorkspaceAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.workspaces.push(action.payload)
+                state.error = null
+            })
+            .addCase(createWorkspaceAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not create workspace."
+            })
+
+            //workspace list
             .addCase(loadingWorkspacesAsync.pending, (state) => {
                 state.loading = true
                 state.error = null

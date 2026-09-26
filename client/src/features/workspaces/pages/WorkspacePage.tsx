@@ -11,6 +11,7 @@ import TaskBoard from "../../tasks/components/TaskBoard"
 import TaskForm from "../../tasks/components/TaskForm"
 import type { Task } from "../../tasks/types/TaskTypes"
 import "./WorkspacePage.css"
+import settingsIcon from "../../../assets/icons/settings.svg"
 
 function WorkspacePage() {
 
@@ -34,13 +35,9 @@ function WorkspacePage() {
         priorities
     } = useSelector((state: RootState) => state.tasks)
 
-
-    console.log("TASK BOARD DATA:", {
-        tasks,
-        statuses,
-        priorities
-    })
-
+    const isInitialLoading =
+        loading &&
+        (!selectedWorkspace || selectedWorkspace.id != workspaceId)
 
     useEffect(() => {
         if (workspaceId) {
@@ -51,7 +48,7 @@ function WorkspacePage() {
     }, [dispatch, workspaceId])
 
 
-    if (loading) {
+    if (isInitialLoading) {
         return <p>Loading workspace...</p>
     }
 
@@ -82,22 +79,31 @@ function WorkspacePage() {
 
                 <div className="workspace-header-actions">
 
-                    <button
-                        className="workspace-settings-button"
-                        onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
-                    >
-                        Workspace Settings
-                    </button>
+                    <div className="workspace-actions">
 
-                    <button
-                        className="new-task-button"
-                        onClick={() => {
-                            setSelectedTask(null)
-                            setShowTaskForm(true)
-                        }}
-                    >
-                        + New Task
-                    </button>
+                        <button
+                            className="workspace-settings-button"
+                            onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
+                        >
+                            <img
+                                className="workspce-settings-icon"
+                                src={settingsIcon}
+                                alt=""
+                                aria-hidden="true"
+                            />
+                            <span>Workspace Settings</span>
+                        </button>
+
+                        <button
+                            className="new-task-button"
+                            onClick={() => {
+                                setSelectedTask(null)
+                                setShowTaskForm(true)
+                            }}
+                        >
+                            + New Task
+                        </button>
+                    </div>
                 </div>
 
             </header>

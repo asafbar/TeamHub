@@ -5,8 +5,20 @@ import type {
    WorkspaceResponse,
    WorkspacesResponse,
    WorkspaceMember,
-   WorkspaceMembersResponse
+   WorkspaceMembersResponse,
+   CreateWorkspaceRequest
 } from "../types/WorkspaceTypes";
+
+async function createWorkspace(
+   workspaceData: CreateWorkspaceRequest
+): Promise<Workspace> {
+   const response = await apiClient.post<WorkspaceResponse>(
+      "/workspaces",
+      workspaceData
+   )
+
+   return response.data.data
+}
 
 async function getWorkspaces(): Promise<Workspace[]> {
    const response = await apiClient.get<WorkspacesResponse>(
@@ -37,6 +49,7 @@ async function getWorkspaceMembers(
 }
 
 export {
+   createWorkspace,
    getWorkspaces,
    getWorkspaceById,
    getWorkspaceMembers
