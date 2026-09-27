@@ -8,6 +8,8 @@ import StatusManager from "../components/StatusManager"
 import { loadWorkspaceAsync } from "../store/workspaceSlice"
 import styles from "./WorkspaceSettingsPage.module.css"
 import statusesIcon from "../../../assets/icons/statuses.svg"
+import priorityIcon from "../../../assets/icons/priorities.svg"
+import PriorityManager from "../components/PriorityManager"
 
 function WorkspaceSettingsPage() {
 
@@ -16,6 +18,7 @@ function WorkspaceSettingsPage() {
     const navigate = useNavigate()
 
     const [showStatusManager, setShowStatusManager] = useState(false)
+    const [showPriorityManager, setShowPriorityManager] = useState(false)
 
     const selectedWorkspace = useSelector(
         (state: RootState) => state.workspaces.selectedWorkspace
@@ -23,6 +26,9 @@ function WorkspaceSettingsPage() {
 
     const statuses = useSelector(
         (state: RootState) => state.tasks.statuses
+    )
+    const priorities = useSelector(
+        (state: RootState) => state.tasks.priorities
     )
 
     useEffect(() => {
@@ -90,6 +96,41 @@ function WorkspaceSettingsPage() {
                         </button>
                     </div>
                 </article>
+
+                <article className={styles.settingsCard}>
+                    <div className={styles.cardHeader}>
+                        <div className={`${styles.cardIcon} ${styles.priorityCardIcon}`}>
+                            <img
+                                className={styles.cardIconImage}
+                                src={priorityIcon}
+                                alt=""
+                                aria-hidden="true"
+                            />
+                        </div>
+
+                        <div className={styles.cardContent}>
+                            <h2 className={styles.cardTitle}>Priorities</h2>
+                            <p className={styles.cardDescription}>
+                                Configure task priorities and their colors.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className={styles.cardFooter}>
+                        <span className={styles.cardCount}>
+                            {priorities.length} priorities
+                        </span>
+
+                        <button
+                            className={styles.manageButton}
+                            type="button"
+                            onClick={() => setShowPriorityManager(true)}
+                        >
+                            Manage <span>›</span>
+                        </button>
+                    </div>
+                </article>
+
             </section>
 
             {
@@ -104,6 +145,18 @@ function WorkspaceSettingsPage() {
 
                 )
             }
+
+            {showPriorityManager && workspaceId && (
+                <WorkspaceModal
+                title="Manage Priorities"
+                description="Create, edit, reorder and customize task priorities."
+                onClose={()=> setShowPriorityManager(false)}
+                >
+                    <PriorityManager
+                        workspaceId={workspaceId}
+                    />
+                </WorkspaceModal>
+            )}
         </main >
     )
 }

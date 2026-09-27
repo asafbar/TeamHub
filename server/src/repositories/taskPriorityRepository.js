@@ -52,7 +52,17 @@ async function reorderTaskPriorities(priorityUpdates) {
         }
     }))
 
-    return await TaskPriority.bulkWrite(operations)
+    await TaskPriority.bulkWrite(operations)
+
+    const priorityIds = priorityUpdates.map(
+        (priority) => priority.priorityId
+    )
+
+    return await TaskPriority.find({
+        _id: { $in: priorityIds }
+    }).sort({
+        position: 1
+    })
 }
 
 module.exports = {

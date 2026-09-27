@@ -45,6 +45,25 @@ export type TaskPrioritiesResponse = {
     data: TaskPriority[]
 }
 
+export type CreateTaskPriorityRequest = {
+    name: string
+    color?: string | null
+}
+
+export type UpdateTaskPriorityRequest = {
+    name?: string
+    color?: string | null
+}
+
+export type TaskPriorityPositionUpdate = {
+    priorityId: string
+    position: number
+}
+
+export type ReorderTaskPrioritiesRequest = {
+    priorityUpdates: TaskPriorityPositionUpdate[]
+}
+
 export type Task = {
     id: string
     workspaceId: string

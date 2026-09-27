@@ -43,7 +43,7 @@ async function deleteTaskStatusById(id) {
 async function reorderTaskStatuses(statusUpdates) {
     const operations = statusUpdates.map((status) => ({
         updateOne: {
-            filter: { _id: status.statusId},
+            filter: { _id: status.statusId },
             update: {
                 $set: {
                     position: status.position
@@ -52,7 +52,17 @@ async function reorderTaskStatuses(statusUpdates) {
         }
     }))
 
-    return await TaskStatus.bulkWrite(operations)
+    await TaskStatus.bulkWrite(operations)
+
+    const statusIds = statusUpdates.map(
+        (status) => status.statusId
+    )
+
+    return await TaskStatus.find({
+        _id: { $in: statusIds }
+    }).sort({
+        position: 1
+    })
 }
 
 module.exports = {

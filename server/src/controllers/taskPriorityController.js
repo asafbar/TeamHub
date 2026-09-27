@@ -1,5 +1,6 @@
 const taskPriorityService = require('../services/taskPriorityService')
 const { successResponse, errorResponse } = require('../utils/apiResponse')
+const {toTaskPriorityResponse} = require('../utils/taskPriorityMapper')
 
 async function createTaskPriority(req, res) {
     try {
@@ -15,7 +16,7 @@ async function createTaskPriority(req, res) {
 
         return res.status(201).json(
             successResponse("Task priority created successfully.",
-                priority
+                toTaskPriorityResponse(priority)
             )
         )
     } catch (error) {
@@ -41,7 +42,7 @@ async function updateTaskPriority(req, res) {
         return res.status(200).json(
             successResponse(
                 "Task priority updated successfully.",
-                priority
+                toTaskPriorityResponse(priority)
             )
         )
     } catch (error) {
@@ -76,7 +77,7 @@ async function reorderTaskPriorities(req, res) {
         const { workspaceId } = req.params
         const { priorityUpdates } = req.body
 
-        await taskPriorityService.reorderTaskPriorities(
+        const priorities = await taskPriorityService.reorderTaskPriorities(
             userId,
             workspaceId,
             priorityUpdates
@@ -84,7 +85,8 @@ async function reorderTaskPriorities(req, res) {
 
         return res.status(200).json(
             successResponse(
-                "Task priorities reordered successfully."
+                "Task priorities reordered successfully.",
+                priorities.map(toTaskPriorityResponse)
             )
         )
     } catch (error) {

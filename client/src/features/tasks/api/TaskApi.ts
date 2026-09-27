@@ -11,7 +11,10 @@ import type {
     ReorderTaskRequest,
     CreateTaskStatusRequest,
     UpdateTaskStatusRequest,
-    ReorderTaskStatusesRequest
+    ReorderTaskStatusesRequest,
+    CreateTaskPriorityRequest,
+    UpdateTaskPriorityRequest,
+    ReorderTaskPrioritiesRequest
 } from "../types/TaskTypes";
 
 async function getWorkspaceTasks(
@@ -90,6 +93,51 @@ async function getTaskPriorities(
     return response.data.data
 }
 
+async function createTaskPriority(
+    workspaceId: string,
+    priorityData: CreateTaskPriorityRequest
+): Promise<TaskPriority> {
+    const response = await apiClient.post(`/workspaces/${workspaceId}/tasks/priorities`,
+        priorityData
+    )
+
+    return response.data.data
+}
+
+async function updateTaskPriority(
+    workspaceId: string,
+    priorityId: string,
+    priorityData: UpdateTaskPriorityRequest
+): Promise<TaskPriority> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/priorities/${priorityId}`,
+        priorityData
+    )
+
+    return response.data.data
+}
+
+async function deleteTaskPriority(
+    workspaceId: string,
+    priorityId: string
+): Promise<void> {
+    await apiClient.delete(
+        `/workspaces/${workspaceId}/tasks/priorities/${priorityId}`
+    )
+}
+
+async function reorderTaskPriorities(
+    workspaceId: string,
+    reorderData: ReorderTaskPrioritiesRequest
+): Promise<TaskPriority[]> {
+    const response = await apiClient.patch(
+        `/workspaces/${workspaceId}/tasks/priorities/reorder`,
+        reorderData
+    )
+
+    return response.data.data
+}
+
 async function createTask(
     workspaceId: string,
     taskData: CreateTaskRequest
@@ -144,6 +192,10 @@ export {
     deleteTaskStatus,
     reorderTaskStatuses,
     getTaskPriorities,
+    createTaskPriority,
+    updateTaskPriority,
+    deleteTaskPriority,
+    reorderTaskPriorities,
     createTask,
     updateTask,
     deleteTask,

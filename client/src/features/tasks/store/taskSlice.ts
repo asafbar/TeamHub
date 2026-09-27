@@ -9,7 +9,10 @@ import type {
     ReorderTaskRequest,
     CreateTaskStatusRequest,
     UpdateTaskStatusRequest,
-    ReorderTaskStatusesRequest
+    ReorderTaskStatusesRequest,
+    CreateTaskPriorityRequest,
+    UpdateTaskPriorityRequest,
+    ReorderTaskPrioritiesRequest
 } from "../types/TaskTypes"
 import {
     getTaskPriorities,
@@ -22,7 +25,11 @@ import {
     createTaskStatus,
     updateTaskStatus,
     deleteTaskStatus,
-    reorderTaskStatuses
+    reorderTaskStatuses,
+    createTaskPriority,
+    updateTaskPriority,
+    deleteTaskPriority,
+    reorderTaskPriorities
 } from "../api/TaskApi"
 
 type TaskState = {
@@ -88,6 +95,27 @@ type DeleteTaskStatusArgs = {
 type ReorderTaskStatusesArgs = {
     workspaceId: string
     reorderData: ReorderTaskStatusesRequest
+}
+
+type CreateTaskPriorityArgs = {
+    workspaceId: string
+    priorityData: CreateTaskPriorityRequest
+}
+
+type UpdateTaskPriorityArgs = {
+    workspaceId: string
+    priorityId: string
+    priorityData: UpdateTaskPriorityRequest
+}
+
+type DeleteTaskPriorityArgs = {
+    workspaceId: string
+    priorityId: string
+}
+
+type ReorderTaskPrioritiesArgs = {
+    workspaceId: string
+    reorderData: ReorderTaskPrioritiesRequest
 }
 
 export const loadTaskBoardAsync = createAsyncThunk<
@@ -239,7 +267,7 @@ export const deleteTaskStatusAsync = createAsyncThunk<
 
             return statusId
         } catch (error) {
-            if(axios.isAxiosError(error)){
+            if (axios.isAxiosError(error)) {
                 return thunkApi.rejectWithValue(
                     error.response?.data?.message ??
                     "Could not delete task status."
@@ -264,6 +292,87 @@ export const reorderTaskStatusesAsync = createAsyncThunk<
             )
         } catch (error) {
             return thunkApi.rejectWithValue("Could not reorder task statuses.")
+        }
+    }
+)
+
+export const createTaskPriorityAsync = createAsyncThunk<
+    TaskPriority,
+    CreateTaskPriorityArgs,
+    { rejectValue: string }
+>(
+    "tasks/createTaskPriority",
+    async ({ workspaceId, priorityData }, thunkApi) => {
+
+        try {
+            return await createTaskPriority(
+                workspaceId,
+                priorityData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not create task priority.")
+        }
+    }
+)
+
+export const updateTaskPriorityAsync = createAsyncThunk<
+    TaskPriority,
+    UpdateTaskPriorityArgs,
+    { rejectValue: string }
+>(
+    "tasks/updateTaskPriority",
+    async ({ workspaceId, priorityId, priorityData }, thunkApi) => {
+        try {
+            return await updateTaskPriority(
+                workspaceId,
+                priorityId,
+                priorityData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not update task priority.")
+        }
+    }
+)
+
+export const deleteTaskPriorityAsync = createAsyncThunk<
+    string,
+    DeleteTaskPriorityArgs,
+    { rejectValue: string }
+>(
+    "tasks/deleteTaskPriority",
+    async ({ workspaceId, priorityId }, thunkApi) => {
+        try {
+            await deleteTaskPriority(
+                workspaceId,
+                priorityId
+            )
+            return priorityId
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return thunkApi.rejectWithValue(
+                    error.response?.data?.message ??
+                    "Could not delete task priority."
+                )
+            }
+            return thunkApi.rejectWithValue("Could not delete task priority.")
+        }
+    }
+)
+
+export const reorderTaskPrioritiesAsync = createAsyncThunk<
+    TaskPriority[],
+    ReorderTaskPrioritiesArgs,
+    { rejectValue: string }
+>(
+    "tasks/reorderTaskPriorities",
+    async ({ workspaceId, reorderData }, thunkApi) => {
+        try {
+            return await reorderTaskPriorities(
+                workspaceId,
+                reorderData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not reorder task priorities.")
         }
     }
 )
@@ -429,6 +538,78 @@ const taskSlice = createSlice({
             .addCase(reorderTaskStatusesAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not reorder task statuses."
+            })
+
+            // create task priority
+            .addCase(createTaskPriorityAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(createTaskPriorityAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.priorities.push(action.payload)
+                state.error = null
+            })
+            .addCase(createTaskPriorityAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not create task priority."
+            })
+
+            // update task priority
+            .addCase(updateTaskPriorityAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updateTaskPriorityAsync.fulfilled, (state, action) => {
+                state.loading = false
+
+                const priorityIndex = state.priorities.findIndex(
+                    (priority) => priority.id === action.payload.id
+                )
+
+                if (priorityIndex !== -1) {
+                    state.priorities[priorityIndex] = action.payload
+                }
+
+                state.error = null
+            })
+            .addCase(updateTaskPriorityAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not update task priority."
+            })
+
+            // delete task priority
+            .addCase(deleteTaskPriorityAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(deleteTaskPriorityAsync.fulfilled, (state, action) => {
+                state.loading = false
+
+                state.priorities = state.priorities.filter(
+                    (priority) => priority.id !== action.payload
+                )
+
+                state.error = null
+            })
+            .addCase(deleteTaskPriorityAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not delete task priority."
+            })
+
+            // reorder task priorities
+            .addCase(reorderTaskPrioritiesAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(reorderTaskPrioritiesAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.priorities = action.payload
+                state.error = null
+            })
+            .addCase(reorderTaskPrioritiesAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not reorder task priorities."
             })
     },
 })
