@@ -2,13 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type {
     Workspace,
     WorkspaceMember,
-    CreateWorkspaceRequest
+    CreateWorkspaceRequest,
+    UpdateWorkspaceRequest
 } from "../types/WorkspaceTypes"
 import {
     getWorkspaceById,
     getWorkspaces,
     getWorkspaceMembers,
-    createWorkspace
+    createWorkspace,
+    updateWorkspace
 } from "../api/WorkspaceApi"
 
 type WorkspaceState = {
@@ -76,6 +78,21 @@ export const loadWorkspaceAsync = createAsyncThunk<
     }
 )
 
+export const updateWorkspaceAsync = createAsyncThunk<
+    Workspace,
+    { workspaceId: string; workspaceData: UpdateWorkspaceRequest },
+    { rejectValue: string }
+>(
+    "workspaces/updateWorkspace",
+    async ({ workspaceId, workspaceData }, thunkApi) => {
+        try {
+            return await updateWorkspace(workspaceId, workspaceData)
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not update workspace.")
+        }
+    }
+)
+
 export const loadWorkspaceMembersAsync = createAsyncThunk<
     WorkspaceMember[],
     string,
@@ -139,6 +156,30 @@ const workspaceSlice = createSlice({
             .addCase(loadWorkspaceAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not load workspaces."
+            })
+
+            // update workspace
+            .addCase(updateWorkspaceAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(updateWorkspaceAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.selectedWorkspace = action.payload
+
+                const workspaceIndex = state.workspaces.findIndex(
+                    (workspace) => workspace.id === action.payload.id
+                )
+
+                if (workspaceIndex !== -1) {
+                    state.workspaces[workspaceIndex] = action.payload
+                }
+
+                state.error = null
+            })
+            .addCase(updateWorkspaceAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not update workspace."
             })
 
             //workspace members

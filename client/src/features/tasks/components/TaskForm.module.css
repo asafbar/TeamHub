@@ -1,9 +1,57 @@
 .form {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 20px;
 
     width: 100%;
+    min-height: 0;
+}
+
+.scrollIndicator {
+    position: absolute;
+    left: 50%;
+    bottom: 72px;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    transform: translateX(-50%);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-round);
+
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity var(--transition-normal);
+}
+
+.scrollIndicatorVisible {
+    opacity: 1;
+}
+
+.formContent {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 20px;
+
+    min-height: 0;
+    padding-bottom: var(--spacing-sm);
+
+    overflow-y: auto;
 }
 
 .header {

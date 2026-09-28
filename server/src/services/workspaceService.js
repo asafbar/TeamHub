@@ -62,6 +62,47 @@ async function getWorkspaceById(userId, workspaceId) {
     return workspace
 }
 
+async function updateWorkspace(userId, workspaceId, workspaceData) {
+    const membership = await membershipRepository.getMembershipByUserAndWorkspace(
+        userId,
+        workspaceId
+    )
+
+    if (!membership) {
+        throw new Error("Workspace not found.")
+    }
+
+    if (membership.role !== "owner") {
+        throw new Error("Only the workspace owner can update the workspace.")
+    }
+
+    const allowedFields = [
+        "name",
+        "description",
+        "color",
+        "icon"
+    ]
+
+    const allowUpdates = {}
+
+    allowedFields.forEach((field) => {
+        if (workspaceData[field] !== undefined) {
+            allowUpdates[field] = workspaceData[field]
+        }
+    })
+
+    const workspace = await workspaceRepository.updateWorkspace(
+        workspaceId,
+        allowUpdates
+    )
+
+    if (!workspace) {
+        throw new Error("Workspace not found.")
+    }
+
+    return workspace
+}
+
 async function addMemberToWorkspace(
     requestingUserId,
     workspaceId,
@@ -107,6 +148,7 @@ module.exports = {
     createWorkspace,
     getUserWorkspaces,
     getWorkspaceById,
+    updateWorkspace,
     addMemberToWorkspace,
     getWorkspaceMembers
 }

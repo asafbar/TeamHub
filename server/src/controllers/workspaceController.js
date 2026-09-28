@@ -65,6 +65,27 @@ async function getWorkspaceById(req, res) {
     }
 }
 
+async function updateWorkspace(req, res) {
+    try {
+        const workspace = await workspaceService.updateWorkspace(
+            req.user.id,
+            req.params.workspaceId,
+            req.body
+        )
+
+        return res.status(200).json(
+            successResponse(
+                "Workspace updated successfully.",
+                toWorkspaceResponse(workspace)
+            )
+        )
+    } catch (error) {
+        return res.status(400).json(
+            errorResponse(error.message)
+        )
+    }
+}
+
 async function addMember(req, res) {
     try {
         const membership = await workspaceService.addMemberToWorkspace(
@@ -110,6 +131,7 @@ module.exports = {
     createWorkspace,
     getUserWorkspaces,
     getWorkspaceById,
+    updateWorkspace,
     addMember,
     getWorkspaceMembers
 }

@@ -6,7 +6,8 @@ import type {
    WorkspacesResponse,
    WorkspaceMember,
    WorkspaceMembersResponse,
-   CreateWorkspaceRequest
+   CreateWorkspaceRequest,
+   UpdateWorkspaceRequest
 } from "../types/WorkspaceTypes";
 
 async function createWorkspace(
@@ -38,6 +39,18 @@ async function getWorkspaceById(
    return response.data.data
 }
 
+async function updateWorkspace(
+   workspaceId:string,
+   workspaceData: UpdateWorkspaceRequest
+): Promise<Workspace> {
+   const response = await apiClient.patch<WorkspaceResponse>(
+      `/workspaces/${workspaceId}`,
+      workspaceData
+   )
+
+   return response.data.data
+}
+
 async function getWorkspaceMembers(
    workspaceId: string
 ): Promise<WorkspaceMember[]> {
@@ -52,5 +65,6 @@ export {
    createWorkspace,
    getWorkspaces,
    getWorkspaceById,
+   updateWorkspace,
    getWorkspaceMembers
 }

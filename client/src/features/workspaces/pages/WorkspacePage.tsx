@@ -10,7 +10,7 @@ import { loadTaskBoardAsync } from "../../tasks/store/taskSlice"
 import TaskBoard from "../../tasks/components/TaskBoard"
 import TaskForm from "../../tasks/components/TaskForm"
 import type { Task } from "../../tasks/types/TaskTypes"
-import "./WorkspacePage.css"
+import styles from "./WorkspacePage.module.css"
 import settingsIcon from "../../../assets/icons/settings.svg"
 
 function WorkspacePage() {
@@ -65,28 +65,28 @@ function WorkspacePage() {
     }
 
     return (
-        <div className="workspace-page">
-            <header className="workspace-header">
+        <div className={styles.workspacePage}>
+            <header className={styles.workspaceHeader}>
                 <div>
-                    <h1 className="workspace-title">
+                    <h1 className={styles.workspaceTitle}>
                         {selectedWorkspace.name}
                     </h1>
 
-                    <p className="workspace-description">
+                    <p className={styles.workspaceDescription}>
                         {selectedWorkspace.description}
                     </p>
                 </div>
 
-                <div className="workspace-header-actions">
+                <div className={styles.workspaceHeaderActions}>
 
-                    <div className="workspace-actions">
+                    <div className={styles.workspaceActions}>
 
                         <button
-                            className="workspace-settings-button"
+                            className={styles.workspaceSettingsButton}
                             onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
                         >
                             <img
-                                className="workspce-settings-icon"
+                                className={styles.workspaceSettingsIcon}
                                 src={settingsIcon}
                                 alt=""
                                 aria-hidden="true"
@@ -95,7 +95,7 @@ function WorkspacePage() {
                         </button>
 
                         <button
-                            className="new-task-button"
+                            className={styles.newTaskButton}
                             onClick={() => {
                                 setSelectedTask(null)
                                 setShowTaskForm(true)
@@ -108,11 +108,11 @@ function WorkspacePage() {
 
             </header>
 
-            <h2 className="tasks-title">Tasks</h2>
+            <h2 className={styles.tasksTitle}>Tasks</h2>
 
             {showTaskForm && workspaceId && (
-                <div className="task-modal-overlay">
-                    <div className="task-modal">
+                <div className={styles.taskModalOverlay}>
+                    <div className={styles.taskModal}>
 
                         <TaskForm
                             workspaceId={workspaceId}

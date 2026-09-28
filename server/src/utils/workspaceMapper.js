@@ -3,7 +3,9 @@ function toWorkspaceResponse(workspace) {
         id: workspace._id,
         name: workspace.name,
         description: workspace.description,
-        updateedAt: workspace.updateedAt
+        color: workspace.color,
+        icon: workspace.icon,
+        updatedAt: workspace.updateedAt
     }
 }
 

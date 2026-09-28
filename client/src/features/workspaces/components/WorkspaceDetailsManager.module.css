@@ -1,0 +1,248 @@
+.manager {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+
+    min-height: 0;
+    padding-bottom: var(--spacing-sm);
+
+    overflow-y: auto;
+}
+
+.scrollIndicator {
+    position: absolute;
+    left: 50%;
+    bottom: 72px;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    transform: translateX(-50%);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-round);
+
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity var(--transition-normal);
+}
+
+.scrollIndicatorVisible {
+    opacity: 1;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+
+    padding-top: var(--spacing-lg);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.saveButton {
+    padding: 10px 16px;
+
+    border: none;
+    border-radius: var(--radius-control);
+
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+
+    color: white;
+    background-color: var(--color-primary-button);
+
+    cursor: pointer;
+
+    transition: background-color var(--transition-normal);
+}
+
+.saveButton:hover {
+    background-color: var(--color-primary-button-hover);
+}
+
+.saveButton:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.6;
+}
+
+.errorMessage {
+    margin: var(--spacing-md) 0 0;
+
+    font-size: var(--font-size-sm);
+    color: var(--color-priority-accent);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.field label {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+
+    color: var(--color-text-secondary);
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-control);
+
+    font: inherit;
+
+    color: var(--color-text-heading);
+    background-color: var(--color-background);
+
+    outline: none;
+
+    transition:
+        border-color var(--transition-normal),
+        box-shadow var(--transition-normal);
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.field textarea {
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+.appearance {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+
+    padding-top: var(--spacing-xl);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+    margin: 0;
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+
+    color: var(--color-text-heading);
+}
+
+.sectionDescription {
+    margin: var(--spacing-xs) 0 0;
+
+    font-size: var(--font-size-sm);
+
+    color: var(--color-text-muted);
+}
+
+.colorOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.colorOption {
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: 2px solid transparent;
+    border-radius: var(--radius-round);
+
+    cursor: pointer;
+
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.colorOption:hover {
+    transform: scale(1.08);
+}
+
+.colorOptionSelected {
+    box-shadow:
+        0 0 0 2px var(--color-surface),
+        0 0 0 4px var(--color-primary);
+}
+
+.iconOptions {
+    display: grid;
+    grid-template-columns: repeat(6, 42px);
+    gap: var(--spacing-md);
+}
+
+.iconOption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-control);
+
+    font-size: var(--font-size-lg);
+
+    color: var(--color-text-secondary);
+    background-color: var(--color-background);
+
+    cursor: pointer;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.iconOption:hover {
+    background-color: var(--color-surface-control-hover);
+    transform: translateY(-1px);
+}
+
+.iconOptionSelected {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-hover);
+}

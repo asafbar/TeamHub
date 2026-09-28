@@ -10,6 +10,7 @@ import styles from "./WorkspaceSettingsPage.module.css"
 import statusesIcon from "../../../assets/icons/statuses.svg"
 import priorityIcon from "../../../assets/icons/priorities.svg"
 import PriorityManager from "../components/PriorityManager"
+import WorkspaceDetailsManager from "../components/WorkspaceDetailsManager"
 
 function WorkspaceSettingsPage() {
 
@@ -19,6 +20,7 @@ function WorkspaceSettingsPage() {
 
     const [showStatusManager, setShowStatusManager] = useState(false)
     const [showPriorityManager, setShowPriorityManager] = useState(false)
+    const [showWorkspaceDetails, setShowWorkspaceDetails] = useState(false)
 
     const selectedWorkspace = useSelector(
         (state: RootState) => state.workspaces.selectedWorkspace
@@ -131,6 +133,37 @@ function WorkspaceSettingsPage() {
                     </div>
                 </article>
 
+                <article className={styles.settingsCard}>
+                    <div className={styles.cardHeader}>
+                        <div className={styles.cardIcon}>
+                            <span>◆</span>
+                        </div>
+
+                        <div className={styles.cardContent}>
+                            <h2 className={styles.cardTitle}>
+                                Workspace Details
+                            </h2>
+
+                            <p className={styles.cardDescription}>
+                                Manage workspace name, description and appearance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className={styles.cardFooter}>
+                        <span className={styles.cardCount}>
+                            General Settings
+                        </span>
+
+                        <button
+                            className={styles.manageButton}
+                            type="button"
+                            onClick={() => setShowWorkspaceDetails(true)}
+                        >
+                            Manage <span>›</span>
+                        </button>
+                    </div>
+                </article>
             </section>
 
             {
@@ -148,12 +181,24 @@ function WorkspaceSettingsPage() {
 
             {showPriorityManager && workspaceId && (
                 <WorkspaceModal
-                title="Manage Priorities"
-                description="Create, edit, reorder and customize task priorities."
-                onClose={()=> setShowPriorityManager(false)}
+                    title="Manage Priorities"
+                    description="Create, edit, reorder and customize task priorities."
+                    onClose={() => setShowPriorityManager(false)}
                 >
                     <PriorityManager
                         workspaceId={workspaceId}
+                    />
+                </WorkspaceModal>
+            )}
+
+            {showWorkspaceDetails && (
+                <WorkspaceModal
+                    title="Workspace Details"
+                    description="Manage workspace information and appearance."
+                    onClose={() => setShowWorkspaceDetails(false)}
+                >
+                    <WorkspaceDetailsManager
+                        onClose={() => setShowWorkspaceDetails(false)}
                     />
                 </WorkspaceModal>
             )}

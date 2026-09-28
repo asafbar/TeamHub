@@ -1,7 +1,7 @@
 const express = require('express')
 const workspaceController = require('../controllers/workspaceController')
 const requireAuth = require('../middleware/authMiddleware')
-const { createWorkspaceValidator, addMemberValidator } = require('../validators/workspaceValidator')
+const { createWorkspaceValidator, addMemberValidator, updateWorkspaceValidator } = require('../validators/workspaceValidator')
 const validateRequest = require('../middleware/validateMiddleware')
 const requireWorkspaceAdmin = require('../middleware/workspaceAdminMiddleware')
 
@@ -25,6 +25,15 @@ router.get(
     '/:id',
     requireAuth,
     workspaceController.getWorkspaceById
+)
+
+router.patch(
+    '/:workspaceId',
+    requireAuth,
+    requireWorkspaceAdmin,
+    updateWorkspaceValidator,
+    validateRequest,
+    workspaceController.updateWorkspace
 )
 
 router.get(

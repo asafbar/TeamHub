@@ -2,11 +2,20 @@ export type Workspace = {
     id: string
     name: string
     description: string
+    color: string
+    icon: string
 }
 
 export type CreateWorkspaceRequest = {
     name: string
     description?: string
+}
+
+export type UpdateWorkspaceRequest = {
+    name?: string
+    description?: string
+    color?: string
+    icon?: string
 }
 
 export type WorkspacesResponse = {

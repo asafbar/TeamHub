@@ -5,7 +5,7 @@ import type {
     TaskPriority
 } from "../types/TaskTypes"
 import type { AppDispatch } from "../../../store/store"
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {
     createTaskAsync,
     updateTaskAsync,
@@ -44,6 +44,8 @@ function TaskForm({
     const [priorityId, setPriorityId] = useState(task?.priorityId ?? priorities[0]?.id ?? "")
     const [assigneeMembershipId, setAssigneeMembershipId] = useState(task?.assigneeMembershipId ?? "")
     const [dueDate, setDueDate] = useState(task?.dueDate?.slice(0, 10) ?? "")
+    const formContentRef = useRef<HTMLDivElement | null>(null)
+    const [canScrollDown, setCanScrollDown] = useState(false)
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -115,151 +117,178 @@ function TaskForm({
         }
     }
 
+    function updateScrollingIndicator() {
+        const content = formContentRef.current
+
+        if (!content) { return }
+
+        setCanScrollDown(
+            content.scrollTop + content.clientHeight < content.scrollHeight - 1
+        )
+    }
+
+    useEffect(() => {
+        updateScrollingIndicator()
+    }, [])
+
     return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.header}>
-            <div>
-                <h2 className={styles.title}>
-                    {task ? "Edit Task" : "New Task"}
-                </h2>
+        <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.header}>
+                <div>
+                    <h2 className={styles.title}>
+                        {task ? "Edit Task" : "New Task"}
+                    </h2>
 
-                <p className={styles.subtitle}>
-                    {task
-                        ? "Update the task details below."
-                        : "Add a new task to your workspace."}
-                </p>
-            </div>
+                    <p className={styles.subtitle}>
+                        {task
+                            ? "Update the task details below."
+                            : "Add a new task to your workspace."}
+                    </p>
+                </div>
 
-            <button
-                type="button"
-                className={styles.closeButton}
-                onClick={onCancel}
-                aria-label="Close"
-            >
-                ×
-            </button>
-        </div>
-
-        <div className={styles.field}>
-            <label htmlFor="task-title">Title</label>
-            <input
-                id="task-title"
-                type="text"
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
-                placeholder="Enter task title"
-            />
-        </div>
-
-        <div className={styles.field}>
-            <label htmlFor="task-description">Description</label>
-            <textarea
-                id="task-description"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                placeholder="Add a description..."
-            />
-        </div>
-
-        <div className={styles.fieldRow}>
-            <div className={styles.field}>
-                <label htmlFor="task-status">Status</label>
-                <select
-                    id="task-status"
-                    value={statusId}
-                    onChange={(event) => setStatusId(event.target.value)}
-                >
-                    {statuses
-                        .slice()
-                        .sort((a, b) => a.position - b.position)
-                        .map((status) => (
-                            <option key={status.id} value={status.id}>
-                                {status.name}
-                            </option>
-                        ))}
-                </select>
-            </div>
-
-            <div className={styles.field}>
-                <label htmlFor="task-priority">Priority</label>
-                <select
-                    id="task-priority"
-                    value={priorityId}
-                    onChange={(event) => setPriorityId(event.target.value)}
-                >
-                    {priorities
-                        .slice()
-                        .sort((a, b) => a.position - b.position)
-                        .map((priority) => (
-                            <option key={priority.id} value={priority.id}>
-                                {priority.name}
-                            </option>
-                        ))}
-                </select>
-            </div>
-        </div>
-
-        <div className={styles.fieldRow}>
-            <div className={styles.field}>
-                <label htmlFor="task-assignee">Assignee</label>
-                <select
-                    id="task-assignee"
-                    value={assigneeMembershipId}
-                    onChange={(event) => setAssigneeMembershipId(event.target.value)}
-                >
-                    <option value="">Unassigned</option>
-
-                    {members.map((member) => (
-                        <option key={member.id} value={member.id}>
-                            {member.user.username}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className={styles.field}>
-                <label htmlFor="task-due-date">Due Date</label>
-                <input
-                    id="task-due-date"
-                    type="date"
-                    value={dueDate}
-                    onChange={(event) => setDueDate(event.target.value)}
-                />
-            </div>
-        </div>
-
-        <div className={styles.actions}>
-            <div>
-                {task && (
-                    <button
-                        type="button"
-                        className={styles.deleteButton}
-                        onClick={handleDelete}
-                    >
-                        Delete Task
-                    </button>
-                )}
-            </div>
-
-            <div className={styles.mainActions}>
                 <button
                     type="button"
-                    className={styles.cancelButton}
+                    className={styles.closeButton}
                     onClick={onCancel}
+                    aria-label="Close"
                 >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    className={styles.submitButton}
-                >
-                    {task ? "Save Changes" : "Create Task"}
+                    ×
                 </button>
             </div>
-        </div>
-    </form>
-)
+
+            <div
+                ref={formContentRef}
+                className={styles.formContent}
+                onScroll={updateScrollingIndicator}
+            >
+                <div className={styles.field}>
+                    <label htmlFor="task-title">Title</label>
+                    <input
+                        id="task-title"
+                        type="text"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        placeholder="Enter task title"
+                    />
+                </div>
+
+                <div className={styles.field}>
+                    <label htmlFor="task-description">Description</label>
+                    <textarea
+                        id="task-description"
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                        placeholder="Add a description..."
+                    />
+                </div>
+
+                <div className={styles.fieldRow}>
+                    <div className={styles.field}>
+                        <label htmlFor="task-status">Status</label>
+                        <select
+                            id="task-status"
+                            value={statusId}
+                            onChange={(event) => setStatusId(event.target.value)}
+                        >
+                            {statuses
+                                .slice()
+                                .sort((a, b) => a.position - b.position)
+                                .map((status) => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+
+                    <div className={styles.field}>
+                        <label htmlFor="task-priority">Priority</label>
+                        <select
+                            id="task-priority"
+                            value={priorityId}
+                            onChange={(event) => setPriorityId(event.target.value)}
+                        >
+                            {priorities
+                                .slice()
+                                .sort((a, b) => a.position - b.position)
+                                .map((priority) => (
+                                    <option key={priority.id} value={priority.id}>
+                                        {priority.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className={styles.fieldRow}>
+                    <div className={styles.field}>
+                        <label htmlFor="task-assignee">Assignee</label>
+                        <select
+                            id="task-assignee"
+                            value={assigneeMembershipId}
+                            onChange={(event) => setAssigneeMembershipId(event.target.value)}
+                        >
+                            <option value="">Unassigned</option>
+
+                            {members.map((member) => (
+                                <option key={member.id} value={member.id}>
+                                    {member.user.username}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className={styles.field}>
+                        <label htmlFor="task-due-date">Due Date</label>
+                        <input
+                            id="task-due-date"
+                            type="date"
+                            value={dueDate}
+                            onChange={(event) => setDueDate(event.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className={`${styles.scrollIndicator} ${canScrollDown ? styles.scrollIndicatorVisible : ""}`}
+            >
+                ↓
+            </div>
+
+            <div className={styles.actions}>
+                <div>
+                    {task && (
+                        <button
+                            type="button"
+                            className={styles.deleteButton}
+                            onClick={handleDelete}
+                        >
+                            Delete Task
+                        </button>
+                    )}
+                </div>
+
+
+                <div className={styles.mainActions}>
+                    <button
+                        type="button"
+                        className={styles.cancelButton}
+                        onClick={onCancel}
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        className={styles.submitButton}
+                    >
+                        {task ? "Save Changes" : "Create Task"}
+                    </button>
+                </div>
+            </div>
+        </form>
+    )
 }
 
 export default TaskForm
