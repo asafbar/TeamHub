@@ -40,6 +40,9 @@
     --color-danger-hover-border: #991b1b;
     --color-danger-hover-background: rgba(127, 29, 29, 0.25);
     --color-success: #22c55e;
+    --color-success-text: #86efac;
+    --color-success-surface: rgba(34, 197, 94, 0.12);
+    --color-success-border: rgba(34, 197, 94, 0.35);
 
     /* Overlay */
     --color-overlay: rgba(2, 6, 23, 0.72);
@@ -89,6 +92,9 @@
     --color-danger-hover-border: #f87171;
     --color-danger-hover-background: rgba(220, 38, 38, 0.08);
     --color-success: #22c55e;
+    --color-success-text: #15803d;
+    --color-success-surface: #f0fdf4;
+    --color-success-border: #bbf7d0;
 
     /* Overlay */
     --color-overlay: rgba(15, 23, 42, 0.45);

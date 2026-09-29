@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import type { LoginResponse, LoginRequest, User } from "../types/AuthTypes"
-import { login, getMe, updateMe } from "../api/AuthApi"
+import type {
+    LoginResponse,
+    LoginRequest,
+    User,
+    RegisterRequest,
+    RegisterResponse
+} from "../types/AuthTypes"
+import { login, register, getMe, updateMe } from "../api/AuthApi"
 import { getToken, saveToken } from "../services/AuthStorageService"
 
 type AuthState = {
@@ -35,6 +41,25 @@ export const loginAsync = createAsyncThunk<
         } catch {
             return thunkApi.rejectWithValue(
                 "Login failed."
+            )
+        }
+    }
+)
+
+export const registerAsync = createAsyncThunk<
+    RegisterResponse,
+    RegisterRequest,
+    {
+        rejectValue: string
+    }
+>(
+    "auth/register",
+    async (userData, thunkApi) => {
+        try {
+            return await register(userData)
+        } catch {
+            return thunkApi.rejectWithValue(
+                "Registration failed."
             )
         }
     }
@@ -125,6 +150,20 @@ const authSlice = createSlice({
             .addCase(loadCurrentUserAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not load current user"
+            })
+
+            // register
+            .addCase(registerAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(registerAsync.fulfilled, (state) => {
+                state.loading = false
+                state.error = null
+            })
+            .addCase(registerAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Registration failed."
             })
 
             // update avatar user (me)

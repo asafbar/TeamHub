@@ -1,0 +1,178 @@
+.manager {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+
+    height: 100%;
+    min-height: 0;
+}
+
+.addSection,
+.membersSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.sectionTitle {
+    margin: 0;
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-heading);
+}
+
+.sectionDescription {
+    margin: var(--spacing-xs) 0 0;
+
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.addForm {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 130px auto;
+    gap: var(--spacing-sm);
+}
+
+.emailInput,
+.roleSelect {
+    padding: 10px 12px;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+
+    font: inherit;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+}
+
+.addButton {
+    padding: 10px 16px;
+
+    border: 0;
+    border-radius: var(--radius-control);
+
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+    color: white;
+    background-color: var(--color-primary-button);
+
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: var(--color-primary-button-hover);
+}
+
+.membersHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.memberCount {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.membersList {
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    overflow: hidden;
+}
+
+.memberRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+
+    padding: var(--spacing-lg);
+
+    color: var(--color-text-secondary);
+}
+
+.memberRow + .memberRow {
+    border-top: 1px solid var(--color-border);
+}
+
+.memberIdentity {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    min-width: 0;
+}
+
+.memberAvatar,
+.avatarFallback {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-round);
+}
+
+.memberAvatar {
+    object-fit: cover;
+}
+
+.avatarFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    background-color: color-mix(in srgb,
+            var(--color-primary) 12%,
+            transparent);
+}
+
+.memberDetails {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+
+    min-width: 0;
+}
+
+.memberName {
+    color: var(--color-text-heading);
+}
+
+.memberEmail {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.roleBadge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: capitalize;
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface-control-hover);
+}
+
+.addError {
+    margin: 0;
+
+    font-size: var(--font-size-sm);
+    color: var(--color-priority-accent);
+}
+
+.addButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

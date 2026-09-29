@@ -120,7 +120,7 @@ async function deleteWorkspace(userId, workspaceId) {
 
     const workspace = await workspaceRepository.getWorkspaceById(workspaceId)
 
-    if(!workspace) {
+    if (!workspace) {
         throw new Error("Workspace not found.")
     }
 
@@ -153,11 +153,15 @@ async function addMemberToWorkspace(
         throw new Error("User is already a member of this workspace.")
     }
 
-    return await membershipRepository.createMembership({
+    const membership = await membershipRepository.createMembership({
         userId: user._id,
         workspaceId,
         role
     })
+
+    return await membershipRepository.getWorkspaceMemberById(
+        membership._id
+    )
 }
 
 async function getWorkspaceMembers(userId, workspaceId) {

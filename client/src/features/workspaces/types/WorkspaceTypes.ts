@@ -49,3 +49,14 @@ export type WorkspaceMembersResponse = {
     message: string
     data: WorkspaceMember[]
 }
+
+export type AddWorkspaceMemberRequest = {
+    email: string
+    role: string
+}
+
+export type WorkspaceMemberResponse = {
+    success: boolean
+    message: string
+    data: WorkspaceMember
+}

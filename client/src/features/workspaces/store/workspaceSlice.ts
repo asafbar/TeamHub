@@ -3,7 +3,8 @@ import type {
     Workspace,
     WorkspaceMember,
     CreateWorkspaceRequest,
-    UpdateWorkspaceRequest
+    UpdateWorkspaceRequest,
+    AddWorkspaceMemberRequest
 } from "../types/WorkspaceTypes"
 import {
     getWorkspaceById,
@@ -11,7 +12,8 @@ import {
     getWorkspaceMembers,
     createWorkspace,
     updateWorkspace,
-    deleteWorkspace
+    deleteWorkspace,
+    addWorkspaceMember
 } from "../api/WorkspaceApi"
 
 type WorkspaceState = {
@@ -121,6 +123,26 @@ export const loadWorkspaceMembersAsync = createAsyncThunk<
             return await getWorkspaceMembers(workspaceId)
         } catch (error) {
             return thunkApi.rejectWithValue("Could not load workspace members.")
+        }
+    }
+)
+
+export const addWorkspaceMemberAsync = createAsyncThunk<
+    WorkspaceMember,
+    { workspaceId: string; memberData: AddWorkspaceMemberRequest },
+    { rejectValue: string }
+>(
+    "workspaces/addWorkspaceMember",
+    async ({ workspaceId, memberData }, thunkApi) => {
+        try {
+            return await addWorkspaceMember(
+                workspaceId,
+                memberData
+            )
+        } catch (error) {
+            return thunkApi.rejectWithValue(
+                "Could not add workspace member."
+            )
         }
     }
 )
@@ -236,6 +258,21 @@ const workspaceSlice = createSlice({
             .addCase(loadWorkspaceMembersAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not load workspace members."
+            })
+
+            // add workspace member
+            .addCase(addWorkspaceMemberAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(addWorkspaceMemberAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.members.push(action.payload)
+                state.error = null
+            })
+            .addCase(addWorkspaceMemberAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not add workspace member."
             })
     }
 })

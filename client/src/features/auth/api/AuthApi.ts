@@ -2,7 +2,9 @@ import apiClient from "../../../api/apiClient";
 import type {
     LoginRequest,
     LoginResponse,
-    User
+    User,
+    RegisterRequest,
+    RegisterResponse
 } from "../types/AuthTypes";
 
 type UpdateMeRequest = {
@@ -14,6 +16,17 @@ async function login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>(
         "/auth/login",
         credentials
+    )
+
+    return response.data
+}
+
+async function register(
+    userData: RegisterRequest
+): Promise<RegisterResponse> {
+    const response = await apiClient.post<RegisterResponse>(
+        "/auth/register",
+        userData
     )
 
     return response.data
@@ -36,6 +49,7 @@ async function updateMe(data: UpdateMeRequest): Promise<User> {
 
 export {
     login,
+    register,
     getMe,
     updateMe
 }

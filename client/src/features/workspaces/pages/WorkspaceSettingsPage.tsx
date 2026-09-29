@@ -18,6 +18,7 @@ import membersIcon from "../../../assets/icons/members.svg"
 import PriorityManager from "../components/PriorityManager"
 import WorkspaceDetailsManager from "../components/WorkspaceDetailsManager"
 import DeleteWorkspaceConfirmation from "../components/DeleteWorkspaceConfirmation"
+import MembersManager from "../components/MembersManager"
 
 function WorkspaceSettingsPage() {
 
@@ -30,6 +31,7 @@ function WorkspaceSettingsPage() {
     const [showWorkspaceDetails, setShowWorkspaceDetails] = useState(false)
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    const [showMembersManager, setShowMembersManager] = useState(false)
 
     const selectedWorkspace = useSelector(
         (state: RootState) => state.workspaces.selectedWorkspace
@@ -198,6 +200,43 @@ function WorkspaceSettingsPage() {
                     </div>
                 </article>
 
+                <article className={styles.settingsCard}>
+                    <div className={styles.cardHeader}>
+                        <div className={styles.cardIcon}>
+                            <img
+                                className={styles.cardIconImage}
+                                src={membersIcon}
+                                alt=""
+                                aria-hidden="true"
+                            />
+                        </div>
+
+                        <div className={styles.cardContent}>
+                            <h2 className={styles.cardTitle}>
+                                Members
+                            </h2>
+
+                            <p className={styles.cardDescription}>
+                                Manage workspace members and their roles.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className={styles.cardFooter}>
+                        <span className={styles.cardCount}>
+                            Workspace Members
+                        </span>
+
+                        <button
+                            className={styles.manageButton}
+                            type="button"
+                            onClick={() => setShowMembersManager(true)}
+                        >
+                            Manage <span>›</span>
+                        </button>
+                    </div>
+                </article>
+
                 <article className={`${styles.settingsCard} ${styles.dangerCard}`}>
                     <div className={styles.cardHeader}>
                         <div
@@ -271,6 +310,16 @@ function WorkspaceSettingsPage() {
                     <WorkspaceDetailsManager
                         onClose={() => setShowWorkspaceDetails(false)}
                     />
+                </WorkspaceModal>
+            )}
+
+            {showMembersManager && workspaceId && (
+                <WorkspaceModal
+                    title="Manage Members"
+                    description="Add, remove and manage workspace member roles."
+                    onClose={() => setShowMembersManager(false)}
+                >
+                    <MembersManager workspaceId={workspaceId}  />
                 </WorkspaceModal>
             )}
 

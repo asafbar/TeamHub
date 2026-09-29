@@ -4,6 +4,14 @@ async function createMembership(membershipData) {
     return await Membership.create(membershipData)
 }
 
+async function getWorkspaceMemberById(id) {
+    return await Membership.findById(id)
+        .populate(
+            "userId",
+            "username email avatar"
+        )
+}
+
 async function getMembershipByUserAndWorkspace(userId, workspaceId) {
     return await Membership.findOne({
         userId,
@@ -42,6 +50,7 @@ async function deleteWorkspaceMemberships(workspaceId) {
 
 module.exports = {
     createMembership,
+    getWorkspaceMemberById,
     getMembershipByUserAndWorkspace,
     getMembershipsByUser,
     getMembershipById,

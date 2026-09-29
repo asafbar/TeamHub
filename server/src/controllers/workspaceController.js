@@ -1,7 +1,9 @@
 const workspaceService = require('../services/workspaceService')
 const { successResponse, errorResponse } = require('../utils/apiResponse')
-const { toMembershipResponse } = require('../utils/membershipMapper')
-const { toWorkspaceMemberListResponse } = require('../utils/membershipMapper')
+const {
+    toWorkspaceMemberResponse,
+    toWorkspaceMemberListResponse
+} = require('../utils/membershipMapper')
 
 const {
     toWorkspaceResponse,
@@ -115,7 +117,7 @@ async function addMember(req, res) {
         return res.status(201).json(
             successResponse(
                 "Member added successfully.",
-                toMembershipResponse(membership))
+                toWorkspaceMemberResponse(membership))
         )
     } catch (error) {
         return res.status(400).json(

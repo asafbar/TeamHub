@@ -9,11 +9,11 @@ const registerValidator = [
     body("email")
         .trim()
         .isEmail()
-        .withMessage("A valide email is required."),
+        .withMessage("A valid email is required."),
 
     body("password")
         .isLength({ min: 6 })
-        .withMessage("Password must by at least 6 characters long.")
+        .withMessage("Password must be at least 6 characters long.")
 ]
 
 const loginValidator = [

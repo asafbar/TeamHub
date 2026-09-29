@@ -22,3 +22,16 @@ export type LoginResponse = {
     data: LoginData
     errors: unknown
 }
+
+export type RegisterRequest = {
+    username: string
+    email: string
+    password: string
+}
+
+export type RegisterResponse = {
+    success: boolean
+    message: string
+    data: User
+    errors: unknown
+}
