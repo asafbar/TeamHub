@@ -19,6 +19,10 @@ async function updateWorkspace(id, workspaceData) {
     )
 }
 
+async function deleteWorkspaceById(id) {
+    return await Workspace.findByIdAndDelete(id)
+}
+
 async function getMultipleWorkspacesByIds(ids) {
     return await Workspace.find({
         _id: { $in: ids }
@@ -29,5 +33,6 @@ module.exports = {
     createWorkspace,
     getWorkspaceById,
     updateWorkspace,
+    deleteWorkspaceById,
     getMultipleWorkspacesByIds
 }

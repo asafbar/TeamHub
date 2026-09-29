@@ -65,6 +65,12 @@ async function reorderTaskStatuses(statusUpdates) {
     })
 }
 
+async function deleteWorkspaceTaskStatuses(workspaceId) {
+    return await TaskStatus.deleteMany({
+        workspaceId
+    })
+}
+
 module.exports = {
     getTaskStatusById,
     createTaskStatus,
@@ -72,5 +78,6 @@ module.exports = {
     createDefaultTaskStatuses,
     getWorkspaceStatuses,
     deleteTaskStatusById,
+    deleteWorkspaceTaskStatuses,
     reorderTaskStatuses
 }

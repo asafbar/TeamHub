@@ -65,6 +65,12 @@ async function reorderTaskPriorities(priorityUpdates) {
     })
 }
 
+async function deleteWorkspaceTaskPriorities(workspaceId) {
+    return await TaskPriority.deleteMany({
+        workspaceId
+    })
+}
+
 module.exports = {
     getTaskPriorityById,
     createDefaultTaskPriorities,
@@ -72,5 +78,6 @@ module.exports = {
     createTaskPriority,
     updateTaskPriorityById,
     deleteTaskPriorityById,
+    deleteWorkspaceTaskPriorities,
     reorderTaskPriorities
 }

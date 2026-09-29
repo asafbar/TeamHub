@@ -61,10 +61,19 @@ async function getWorkspaceMembers(
    return response.data.data
 }
 
+async function deleteWorkspace(
+   workspaceId:string
+): Promise<void> {
+   await apiClient.delete(
+      `/workspaces/${workspaceId}`
+   )
+}
+
 export {
    createWorkspace,
    getWorkspaces,
    getWorkspaceById,
    updateWorkspace,
-   getWorkspaceMembers
+   getWorkspaceMembers,
+   deleteWorkspace
 }

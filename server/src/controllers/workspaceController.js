@@ -86,6 +86,23 @@ async function updateWorkspace(req, res) {
     }
 }
 
+async function deleteWorkspace(req, res) {
+    try {
+        await workspaceService.deleteWorkspace(
+            req.user.id,
+            req.params.workspaceId
+        )
+
+        return res.status(200).json(
+            successResponse("Workspce deleted successfully.")
+        )
+    } catch (error) {
+        return res.status(400).json(
+            errorResponse(error.message)
+        )
+    }
+}
+
 async function addMember(req, res) {
     try {
         const membership = await workspaceService.addMemberToWorkspace(
@@ -132,6 +149,7 @@ module.exports = {
     getUserWorkspaces,
     getWorkspaceById,
     updateWorkspace,
+    deleteWorkspace,
     addMember,
     getWorkspaceMembers
 }

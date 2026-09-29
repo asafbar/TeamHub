@@ -3,6 +3,7 @@ const membershipRepository = require('../repositories/membershipRepository')
 const userRepository = require('../repositories/userRepository')
 const taskStatusRepository = require('../repositories/taskStatusRepository')
 const taskPriorityRepository = require('../repositories/taskPriorityRepository')
+const taskRepository = require('../repositories/taskRepository')
 
 const {
     DEFAULT_TASK_STATUSES,
@@ -103,6 +104,34 @@ async function updateWorkspace(userId, workspaceId, workspaceData) {
     return workspace
 }
 
+async function deleteWorkspace(userId, workspaceId) {
+    const membership = await membershipRepository.getMembershipByUserAndWorkspace(
+        userId,
+        workspaceId
+    )
+
+    if (!membership) {
+        throw new Error("Workspace not found.")
+    }
+
+    if (membership.role !== "owner") {
+        throw new Error("Only the workspace owner can delete the workspace.")
+    }
+
+    const workspace = await workspaceRepository.getWorkspaceById(workspaceId)
+
+    if(!workspace) {
+        throw new Error("Workspace not found.")
+    }
+
+    await taskRepository.deleteWorkspaceTasks(workspaceId)
+    await taskStatusRepository.deleteWorkspaceTaskStatuses(workspaceId)
+    await taskPriorityRepository.deleteWorkspaceTaskPriorities(workspaceId)
+    await membershipRepository.deleteWorkspaceMemberships(workspaceId)
+
+    return await workspaceRepository.deleteWorkspaceById(workspaceId)
+}
+
 async function addMemberToWorkspace(
     requestingUserId,
     workspaceId,
@@ -149,6 +178,7 @@ module.exports = {
     getUserWorkspaces,
     getWorkspaceById,
     updateWorkspace,
+    deleteWorkspace,
     addMemberToWorkspace,
     getWorkspaceMembers
 }

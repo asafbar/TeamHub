@@ -36,6 +36,13 @@ router.patch(
     workspaceController.updateWorkspace
 )
 
+router.delete(
+    '/:workspaceId',
+    requireAuth,
+    requireWorkspaceAdmin,
+    workspaceController.deleteWorkspace
+)
+
 router.get(
     "/:workspaceId/members",
     requireAuth,

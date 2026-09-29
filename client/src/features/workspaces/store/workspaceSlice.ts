@@ -10,7 +10,8 @@ import {
     getWorkspaces,
     getWorkspaceMembers,
     createWorkspace,
-    updateWorkspace
+    updateWorkspace,
+    deleteWorkspace
 } from "../api/WorkspaceApi"
 
 type WorkspaceState = {
@@ -89,6 +90,22 @@ export const updateWorkspaceAsync = createAsyncThunk<
             return await updateWorkspace(workspaceId, workspaceData)
         } catch (error) {
             return thunkApi.rejectWithValue("Could not update workspace.")
+        }
+    }
+)
+
+export const deleteWorkspaceAsync = createAsyncThunk<
+    string,
+    string,
+    { rejectValue: string }
+>(
+    "workspaces/deleteWorkspace",
+    async (workspaceId, thunkApi) => {
+        try {
+            await deleteWorkspace(workspaceId)
+            return workspaceId
+        } catch (error) {
+            return thunkApi.rejectWithValue("Could not delete workspace.")
         }
     }
 )
@@ -180,6 +197,30 @@ const workspaceSlice = createSlice({
             .addCase(updateWorkspaceAsync.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload ?? "Could not update workspace."
+            })
+
+            // delete workspace
+            .addCase(deleteWorkspaceAsync.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(deleteWorkspaceAsync.fulfilled, (state, action) => {
+                state.loading = false
+
+                state.workspaces = state.workspaces.filter(
+                    (workspace) => workspace.id !== action.payload
+                )
+
+                if (state.selectedWorkspace?.id === action.payload) {
+                    state.selectedWorkspace = null
+                    state.members = []
+                }
+
+                state.error = null
+            })
+            .addCase(deleteWorkspaceAsync.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload ?? "Could not delete workspace."
             })
 
             //workspace members

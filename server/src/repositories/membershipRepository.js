@@ -34,10 +34,17 @@ async function getWorkspaceMembers(workspaceId) {
     })
 }
 
+async function deleteWorkspaceMemberships(workspaceId) {
+    return await Membership.deleteMany({
+        workspaceId
+    })
+}
+
 module.exports = {
     createMembership,
     getMembershipByUserAndWorkspace,
     getMembershipsByUser,
     getMembershipById,
-    getWorkspaceMembers
+    getWorkspaceMembers,
+    deleteWorkspaceMemberships
 }

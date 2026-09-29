@@ -33,17 +33,24 @@
     width: 40px;
     height: 40px;
 
+    border-radius: var(--radius-round);
+
     flex-shrink: 0;
+}
 
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
+.iconImage {
+    display: block;
+    
+    width: 22px;
+    height: 22px;
 
-    color: var(--color-primary);
-    background-color: color-mix(in srgb,
-            var(--color-primary) 12%,
-            transparent);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
 
-            border-radius: var(--radius-md);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
 }
 
 .content {

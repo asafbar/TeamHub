@@ -1,0 +1,78 @@
+.confirmation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.warning {
+    padding: var(--spacing-lg);
+
+    border: 1px solid var(--color-priority-accent);
+    border-radius: var(--radius-md);
+}
+
+.warningTitle {
+    margin: 0 0 var(--spacing-sm);
+
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-heading);
+}
+
+.warningText {
+    margin: 0;
+
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+
+    padding-top: var(--spacing-lg);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.cancelButton,
+.deleteButton {
+    padding: 10px 16px;
+
+    border-radius: var(--radius-control);
+
+    font: inherit;
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-normal),
+        border-color var(--transition-normal);
+}
+
+.cancelButton {
+    border: 1px solid var(--color-border);
+
+    color: var(--color-text-primary);
+    background-color: transparent;
+}
+
+.cancelButton:hover {
+    background-color: var(--color-surface-control-hover);
+}
+
+.deleteButton {
+    border: 1px solid var(--color-priority-accent);
+
+    color: white;
+    background-color: var(--color-priority-accent);
+}
+
+.cancelButton:disabled,
+.deleteButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

@@ -23,6 +23,12 @@ async function deleteTaskById(id) {
     return await Task.findByIdAndDelete(id)
 }
 
+async function deleteWorkspaceTasks(workspaceId) {
+    return await Task.deleteMany({
+        workspaceId
+    })
+}
+
 async function getWorkspaceTasks(workspaceId) {
     return await Task.find({
         workspaceId
@@ -50,6 +56,7 @@ module.exports = {
     getTaskById,
     updateTaskById,
     deleteTaskById,
+    deleteWorkspaceTasks,
     getWorkspaceTasks,
     reorderTasks
 }
