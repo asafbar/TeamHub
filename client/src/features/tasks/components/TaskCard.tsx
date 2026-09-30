@@ -10,6 +10,7 @@ type TaskCardProps = {
     assignee?: WorkspaceMember
     index: number
     onClick: (task: Task) => void
+    isRemoteMoved: boolean
 }
 
 function TaskCard({
@@ -17,7 +18,8 @@ function TaskCard({
     priority,
     assignee,
     index,
-    onClick
+    onClick,
+    isRemoteMoved
 }: TaskCardProps) {
 
     const { ref, handleRef } = useSortable({
@@ -31,7 +33,7 @@ function TaskCard({
     return (
         <div
             ref={ref}
-            className={styles.card}
+            className={`${styles.card} ${isRemoteMoved ? styles.remoteMoved : ""}`}
             onClick={() => onClick(task)}
         >
             <div

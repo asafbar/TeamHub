@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import type { AppDispatch } from "../../../store/store"
 import { useEffect, useState, useRef } from "react"
 import type { WorkspaceMember } from "../../workspaces/types/WorkspaceTypes"
+import { socket } from "../../../services/SocketService"
 import {
     reorderTasksAsync
 } from "../store/taskSlice"
@@ -32,6 +33,7 @@ function TaskBoard({
     const dispatch = useDispatch<AppDispatch>()
 
     const [boardTasks, setBoardTasks] = useState<Task[]>(tasks)
+    const [remoteMovedTaskId, setRemoteMovedTaskId] = useState<string | null>(null)
 
     const draggedElementRef = useRef<HTMLElement | null>(null)
     const originalParentRef = useRef<HTMLElement | null>(null)
@@ -155,7 +157,8 @@ function TaskBoard({
                 reorderTasksAsync({
                     workspaceId,
                     reorderData: {
-                        taskUpdates
+                        taskUpdates,
+                        movedTaskId: taskId
                     }
                 })
             )
@@ -229,7 +232,8 @@ function TaskBoard({
             reorderTasksAsync({
                 workspaceId,
                 reorderData: {
-                    taskUpdates
+                    taskUpdates,
+                    movedTaskId: taskId
                 }
             })
         )
@@ -243,6 +247,53 @@ function TaskBoard({
     useEffect(() => {
         setBoardTasks(tasks)
     }, [tasks])
+
+    useEffect(() => {
+        function handleTaskUpdated(updatedTask: Task) {
+            setBoardTasks((currentTasks) =>
+                currentTasks.map((task =>
+                    task.id === updatedTask.id ? updatedTask : task
+                ))
+            )
+        }
+
+        function handleTaskCreated(createdTask: Task) {
+            setBoardTasks((currentTask) => [
+                ...currentTask,
+                createdTask
+            ])
+        }
+
+        function handleTaskDeleted(taskId: string) {
+            setBoardTasks((currentTasks) =>
+                currentTasks.filter((task) => task.id !== taskId)
+            )
+        }
+
+        function handleTasksReordered(payload: {
+            tasks: Task[],
+            movedTaskId: string
+        }) {
+            setBoardTasks(payload.tasks)
+            setRemoteMovedTaskId(payload.movedTaskId)
+
+            setTimeout(() => {
+                setRemoteMovedTaskId(null)
+            }, 1000)
+        }
+
+        socket.on("task:updated", handleTaskUpdated)
+        socket.on("task:created", handleTaskCreated)
+        socket.on("task:deleted", handleTaskDeleted)
+        socket.on("tasks:reordered", handleTasksReordered)
+
+        return () => {
+            socket.off("task:updated", handleTaskUpdated)
+            socket.off("task:created", handleTaskCreated)
+            socket.off("task:deleted", handleTaskDeleted)
+            socket.off("tasks:reordered", handleTasksReordered)
+        }
+    }, [])
 
     return (
         <DragDropProvider
@@ -275,6 +326,7 @@ function TaskBoard({
                                 priorities={priorities}
                                 members={members}
                                 onTaskClick={onTaskClick}
+                                remoteMovedTaskId={remoteMovedTaskId}
                             />
                         )
                     })

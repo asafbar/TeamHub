@@ -3,6 +3,7 @@ const { toTaskResponse, toTaskListResponse } = require('../utils/taskMapper')
 const { successResponse, errorResponse } = require('../utils/apiResponse')
 const { toTaskStatusListResponse } = require('../utils/taskStatusMapper')
 const { toTaskPriorityListResponse } = require('../utils/taskPriorityMapper')
+const { emitToWorkspace } = require('../socket/socketServer')
 
 async function createTask(req, res) {
     try {
@@ -10,6 +11,12 @@ async function createTask(req, res) {
             req.user.id,
             req.params.workspaceId,
             req.body
+        )
+
+        emitToWorkspace(
+            req.params.workspaceId,
+            'task:created',
+            toTaskResponse(task)
         )
 
         return res.status(201).json(
@@ -75,6 +82,12 @@ async function updateTask(req, res) {
             req.body
         )
 
+        emitToWorkspace(
+            req.params.workspaceId,
+            'task:updated',
+            toTaskResponse(task)
+        )
+
         return res.status(200).json(
             successResponse(
                 "Task updated successfully.",
@@ -93,6 +106,12 @@ async function deleteTask(req, res) {
         await taskService.deleteTask(
             req.user.id,
             req.params.workspaceId,
+            req.params.taskId
+        )
+
+        emitToWorkspace(
+            req.params.workspaceId,
+            'task:deleted',
             req.params.taskId
         )
 
@@ -148,12 +167,21 @@ async function reorderTasks(req, res) {
     try {
         const userId = req.user.id
         const { workspaceId } = req.params
-        const { taskUpdates } = req.body
+        const { taskUpdates, movedTaskId } = req.body
 
         const tasks = await taskService.reorderTasks(
             userId,
             workspaceId,
             taskUpdates
+        )
+
+        emitToWorkspace(
+            workspaceId,
+            'tasks:reordered',
+            {
+                tasks: toTaskListResponse(tasks),
+                movedTaskId
+            }
         )
 
         return res.status(200).json(

@@ -10,7 +10,15 @@
     transition:
         border-color var(--transition-normal),
         background-color var(--transition-normal),
-        transform var(--transition-normal);
+        box-shadow 1000ms ease-out;
+}
+
+.remoteMoved {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-hover);
+    box-shadow: 0 0 0 2px color-mix(in srgb,
+            var(--color-primary) 45%,
+            transparent);
 }
 
 .card:hover {
@@ -51,7 +59,7 @@
     letter-spacing: -3px;
 
     color: var(--color-text-subtle);
-    
+
 
     opacity: 0;
     transition: opacity var(--transition-normal);

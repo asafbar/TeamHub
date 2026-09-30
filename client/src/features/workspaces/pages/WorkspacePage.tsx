@@ -12,6 +12,7 @@ import TaskForm from "../../tasks/components/TaskForm"
 import type { Task } from "../../tasks/types/TaskTypes"
 import styles from "./WorkspacePage.module.css"
 import settingsIcon from "../../../assets/icons/settings.svg"
+import { socket } from "../../../services/SocketService"
 
 function WorkspacePage() {
 
@@ -47,6 +48,15 @@ function WorkspacePage() {
         }
     }, [dispatch, workspaceId])
 
+    useEffect(() => {
+        if (!workspaceId) { return }
+
+        socket.emit("workspace:join", workspaceId)
+
+        return () => {
+            socket.emit("workspace:leave", workspaceId)
+        }
+    }, [workspaceId])
 
     if (isInitialLoading) {
         return <p>Loading workspace...</p>

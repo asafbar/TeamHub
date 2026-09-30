@@ -36,32 +36,33 @@ function AppLayout({ children }: AppLayoutProps) {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <button className={`sidebar-nav-item ${
-                        location.pathname === "/" ||
-                        location.pathname.startsWith("/workspace")
-                        ? "active"
-                        :
-                        ""
-                    }`}
+                    <button className={`sidebar-nav-item ${location.pathname === "/" ||
+                            location.pathname.startsWith("/workspace")
+                            ? "active"
+                            :
+                            ""
+                        }`}
                         onClick={() => navigate("/")}>
                         Workspaces
                     </button>
 
-                    <button className="sidebar-nav-item">
+                    <button
+                        className="sidebar-nav-item sidebar-nav-item-disabled"
+                        disabled
+                        title="Coming soon"
+                    >
                         Notifications
                     </button>
 
-                    <button className={`sidebar-nav-item ${
-                        location.pathname === "/profile" ? "active" : ""
-                    }`}
+                    <button className={`sidebar-nav-item ${location.pathname === "/profile" ? "active" : ""
+                        }`}
                         onClick={() => navigate("/profile")}>
                         Profile
                     </button>
 
-                    <button className={`sidebar-nav-item ${
-                        location.pathname === "/settings" ? "active" : ""
-                    }`}
-                        onClick={()=> navigate("/settings")}
+                    <button className={`sidebar-nav-item ${location.pathname === "/settings" ? "active" : ""
+                        }`}
+                        onClick={() => navigate("/settings")}
                     >
                         Settings
                     </button>

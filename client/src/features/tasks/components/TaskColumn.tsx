@@ -16,6 +16,7 @@ type TaskColumnProps = {
     priorities: TaskPriority[]
     members: WorkspaceMember[]
     onTaskClick: (task: Task) => void
+    remoteMovedTaskId: string | null
 }
 
 function TaskColumn({
@@ -23,7 +24,8 @@ function TaskColumn({
     tasks,
     priorities,
     members,
-    onTaskClick
+    onTaskClick,
+    remoteMovedTaskId
 }: TaskColumnProps) {
 
     const { ref } = useDroppable({
@@ -37,7 +39,7 @@ function TaskColumn({
             className={styles.column}
         >
             <h2 className={styles.title}>{status.name}</h2>
-            
+
             <div className={styles.tasks}>
                 {tasks.map((task, index) => {
 
@@ -57,6 +59,7 @@ function TaskColumn({
                             assignee={assignee}
                             index={index}
                             onClick={onTaskClick}
+                            isRemoteMoved={task.id === remoteMovedTaskId}
                         />
                     )
                 })}

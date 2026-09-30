@@ -104,6 +104,7 @@ export type TaskPositionUpdate = {
 
 export type ReorderTaskRequest = {
     taskUpdates: TaskPositionUpdate[]
+    movedTaskId: string
 }
 
 export type TaskResponse = {
