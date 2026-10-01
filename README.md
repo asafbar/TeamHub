@@ -316,6 +316,23 @@ Workspace task routes also provide endpoints for:
 -   Deleting statuses and priorities
 -   Reordering statuses and priorities
 
+
+## Postman Collection
+
+A Postman collection is included for testing the TeamHub REST API.
+
+Import the following file into Postman:
+
+`docs/postman/TeamHub.postman_collection.json`
+
+The collection includes requests for authentication, workspaces, members,
+tasks, statuses and priorities.
+
+After importing the collection, configure the collection variables as
+needed. The authentication flow automatically stores the JWT token after
+a successful login.
+
+
 ## Security and Validation
 
 TeamHub includes several layers of request protection:
