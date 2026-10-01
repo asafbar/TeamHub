@@ -172,20 +172,22 @@ and assigned custom colors.
 
 ## Tech Stack
 
-  Area               Technologies
-  ------------------ ----------------------------------------------
-  Frontend           React 19, TypeScript, Vite
-  State Management   Redux Toolkit, React Redux
-  Routing            React Router
-  HTTP Client        Axios
-  Drag and Drop      dnd-kit
-  Real-time Client   Socket.io Client
-  Backend            Node.js, Express 5
-  Database           MongoDB, Mongoose
-  Authentication     JSON Web Tokens, bcrypt
-  Validation         express-validator
-  Real-time Server   Socket.io
-  Styling            CSS Modules, shared design tokens and themes
+| Area | Technologies |
+| --- | --- |
+| Frontend | React 19, TypeScript, Vite |
+| State Management | Redux Toolkit, React Redux |
+| Routing | React Router |
+| HTTP Client | Axios |
+| Drag and Drop | dnd-kit |
+| Real-time Client | Socket.io Client |
+| Backend | Node.js, Express 5 |
+| Database | MongoDB, Mongoose |
+| Authentication | JSON Web Tokens, bcrypt |
+| Validation | express-validator |
+| Real-time Server | Socket.io |
+| Styling | CSS Modules, shared design tokens and themes |
+
+## Architecture
 
 ## Architecture
 
