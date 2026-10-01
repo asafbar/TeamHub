@@ -189,8 +189,6 @@ and assigned custom colors.
 
 ## Architecture
 
-## Architecture
-
 TeamHub uses a feature based frontend and a layered backend
 architecture.
 
