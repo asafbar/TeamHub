@@ -15,7 +15,7 @@ function socketAuthMiddleware(socket, next) {
 
         next()
 
-    } catch (error) {
+    } catch {
         next(new Error('Invalid or expired token.'))
     }
 }

@@ -8,7 +8,7 @@ async function register(req, res) {
         const user = await authService.registerUser(req.body)
 
         res.status(201).json(
-            successResponse("User registered successfuly.", toUserResponse(user))
+            successResponse("User registered successfully.", toUserResponse(user))
         )
     } catch (error) {
         res.status(400).json(

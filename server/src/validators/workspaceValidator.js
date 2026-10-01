@@ -22,13 +22,13 @@ const updateWorkspaceValidator = [
         .notEmpty()
         .withMessage("Workspace name cannot be empty.")
         .isLength({ max: 100 })
-        .withMessage("Woekspace name must be at mose 100 characters long."),
+        .withMessage("Workspace name must be at most 100 characters long."),
 
     body("description")
         .optional({ nullable: true })
         .trim()
         .isLength({ max: 500 })
-        .withMessage("Workspace description must be at most 500 chracters long."),
+        .withMessage("Workspace description must be at most 500 characters long."),
 
     body("color")
         .optional()

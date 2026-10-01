@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { createWorkspaceAsync } from "../store/workspaceSlice"
 import type { AppDispatch } from "../../../store/store"
@@ -46,7 +46,7 @@ function CreateWorkspaceForm({
             ).unwrap()
 
             onCreated()
-        } catch (error) {
+        } catch {
             setError("Could not create workspace.")
         } finally {
             setIsSubmitting(false)

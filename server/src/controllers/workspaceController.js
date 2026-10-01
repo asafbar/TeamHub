@@ -96,7 +96,7 @@ async function deleteWorkspace(req, res) {
         )
 
         return res.status(200).json(
-            successResponse("Workspce deleted successfully.")
+            successResponse("Worksapce deleted successfully.")
         )
     } catch (error) {
         return res.status(400).json(

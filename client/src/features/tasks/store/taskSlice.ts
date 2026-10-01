@@ -141,7 +141,7 @@ export const loadTaskBoardAsync = createAsyncThunk<
                 statuses,
                 priorities
             }
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not load task board.")
         }
     }
@@ -156,7 +156,7 @@ export const createTaskAsync = createAsyncThunk<
     async ({ workspaceId, taskData }, thunkApi) => {
         try {
             return await createTask(workspaceId, taskData)
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not create task.")
         }
     }
@@ -175,7 +175,7 @@ export const updateTaskAsync = createAsyncThunk<
                 taskId,
                 taskData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update task.")
         }
     }
@@ -191,7 +191,7 @@ export const deleteTaskAsync = createAsyncThunk<
         try {
             await deleteTask(workspaceId, taskId)
             return taskId
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not delete task.")
         }
     }
@@ -209,7 +209,7 @@ export const reorderTasksAsync = createAsyncThunk<
                 workspaceId,
                 reorderData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not reorder tasks.")
         }
     }
@@ -227,7 +227,7 @@ export const createTaskStatusAsync = createAsyncThunk<
                 workspaceId,
                 statusData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not create task status.")
         }
     }
@@ -246,7 +246,7 @@ export const updateTaskStatusAsync = createAsyncThunk<
                 statusId,
                 statusData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update task status.")
         }
     }
@@ -290,7 +290,7 @@ export const reorderTaskStatusesAsync = createAsyncThunk<
                 workspaceId,
                 reorderData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not reorder task statuses.")
         }
     }
@@ -309,7 +309,7 @@ export const createTaskPriorityAsync = createAsyncThunk<
                 workspaceId,
                 priorityData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not create task priority.")
         }
     }
@@ -328,7 +328,7 @@ export const updateTaskPriorityAsync = createAsyncThunk<
                 priorityId,
                 priorityData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update task priority.")
         }
     }
@@ -371,7 +371,7 @@ export const reorderTaskPrioritiesAsync = createAsyncThunk<
                 workspaceId,
                 reorderData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not reorder task priorities.")
         }
     }

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../../../store/store"
-import { use, useState } from "react"
+import { useState } from "react"
 import { getAvatarUrl } from "../../../utils/avatarUtils"
 import AvatarPickerModal from "../components/AvatarPickerModal"
 import { updateAvatarAsync } from "../store/authSlice"

@@ -53,7 +53,7 @@ function WorkspaceSettingsPage() {
             await dispatch(deleteWorkspaceAsync(workspaceId)).unwrap()
 
             navigate("/")
-        } catch (error) {
+        } catch {
             setIsDeleting(false)
         }
     }

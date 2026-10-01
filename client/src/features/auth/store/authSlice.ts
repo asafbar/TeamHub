@@ -74,7 +74,7 @@ export const loadCurrentUserAsync = createAsyncThunk<
     async (_, thunkApi) => {
         try {
             return await getMe()
-        } catch (error) {
+        } catch  {
             return thunkApi.rejectWithValue("Could not load current user.")
         }
     }
@@ -89,7 +89,7 @@ export const updateAvatarAsync = createAsyncThunk<
     async (avatar, thunkApi) => {
         try {
             return await updateMe({ avatar })
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update avatar.")
         }
     }
@@ -104,7 +104,7 @@ export const updateThemeAsync = createAsyncThunk<
     async (theme, thunkApi) => {
         try {
             return await updateMe({ theme })
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update theme.")
         }
     }

@@ -21,7 +21,7 @@ function requireAuth(req, res, next) {
         }
 
         next()
-    } catch (error) {
+    } catch {
         return res.status(401).json(
             errorResponse("Invalid or expired token.")
         )

@@ -50,7 +50,7 @@ function WorkspaceDetailsManager({
                     }
                 })
             ).unwrap()
-        } catch (error) {
+        } catch {
             // The error is handled by the Redux state
         }
 

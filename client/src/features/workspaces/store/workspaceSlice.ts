@@ -41,7 +41,7 @@ export const createWorkspaceAsync = createAsyncThunk<
     async (workspaceData, thunkApi) => {
         try {
             return await createWorkspace(workspaceData)
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not create workspace.")
         }
     }
@@ -56,7 +56,7 @@ export const loadingWorkspacesAsync = createAsyncThunk<
     async (_, thunkApi) => {
         try {
             return await getWorkspaces()
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue(
                 "Could not load workspaces."
             )
@@ -73,7 +73,7 @@ export const loadWorkspaceAsync = createAsyncThunk<
     async (workspaceId, thunkApi) => {
         try {
             return await getWorkspaceById(workspaceId)
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue(
                 "Could not load workspace."
             )
@@ -90,7 +90,7 @@ export const updateWorkspaceAsync = createAsyncThunk<
     async ({ workspaceId, workspaceData }, thunkApi) => {
         try {
             return await updateWorkspace(workspaceId, workspaceData)
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not update workspace.")
         }
     }
@@ -106,7 +106,7 @@ export const deleteWorkspaceAsync = createAsyncThunk<
         try {
             await deleteWorkspace(workspaceId)
             return workspaceId
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not delete workspace.")
         }
     }
@@ -121,7 +121,7 @@ export const loadWorkspaceMembersAsync = createAsyncThunk<
     async (workspaceId, thunkApi) => {
         try {
             return await getWorkspaceMembers(workspaceId)
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue("Could not load workspace members.")
         }
     }
@@ -139,7 +139,7 @@ export const addWorkspaceMemberAsync = createAsyncThunk<
                 workspaceId,
                 memberData
             )
-        } catch (error) {
+        } catch {
             return thunkApi.rejectWithValue(
                 "Could not add workspace member."
             )

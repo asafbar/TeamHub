@@ -86,7 +86,7 @@ async function deleteTaskStatus(
         throw new Error("The last status cannot be deleted.")
     }
 
-    tasks = await taskRepository.getWorkspaceTasks(workspaceId)
+    const tasks = await taskRepository.getWorkspaceTasks(workspaceId)
 
     const statusHasTasks = tasks.some(
         (task) => task.statusId.toString() === statusId
